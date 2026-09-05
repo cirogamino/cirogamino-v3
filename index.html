@@ -163,7 +163,7 @@ footer{position:relative;z-index:5;border-top:1px solid var(--line);padding:40px
 <body>
 
 <canvas id="space"></canvas>
-<img id="glow-fallback" src="img/ciro-hero.webp" alt="Ciro Gamino">
+<img id="glow-fallback" src="img/ciro-hero.webp?v=2" alt="Ciro Gamino">
 <div class="vignette"></div>
 <div class="grain"></div>
 
@@ -208,8 +208,8 @@ footer{position:relative;z-index:5;border-top:1px solid var(--line);padding:40px
     The fleet ships it; he signs off.</p>
   </div>
   <div class="human-grid">
-    <div class="pcard rv" data-tilt><img src="img/ciro-hero.webp" alt="Ciro Gamino portrait"><div class="cap"><b>Ciro Gamino</b><span>FOUNDER · OPERATOR · THE 1 HUMAN</span></div></div>
-    <div class="pcard rv" data-tilt><img src="img/ciro-side.webp" alt="Ciro Gamino side profile"><div class="cap"><b>Watching the machines work</b><span>EVERY ARENA, EVERY NIGHT</span></div></div>
+    <div class="pcard rv" data-tilt><img src="img/ciro-hero.webp?v=2" alt="Ciro Gamino portrait"><div class="cap"><b>Ciro Gamino</b><span>FOUNDER · OPERATOR · THE 1 HUMAN</span></div></div>
+    <div class="pcard rv" data-tilt><img src="img/ciro-side.webp?v=2" alt="Ciro Gamino side profile"><div class="cap"><b>Watching the machines work</b><span>EVERY ARENA, EVERY NIGHT</span></div></div>
   </div>
   <p class="human-side rv">By day the fleet runs volleyball nights, real-estate pipelines, a mockumentary office and a
   social empire. By night it runs itself — <b>that's the point</b>. I built a company where twenty of the
@@ -388,7 +388,7 @@ ringGrp.position.y=-2.9; scene.add(ringGrp);
 
 /* ---- THE OPERATOR: photo slab + frame + glow ---- */
 const heroGrp=new THREE.Group();
-const tex=new THREE.TextureLoader().load('img/ciro-hero.webp'); tex.colorSpace=THREE.SRGBColorSpace;
+const tex=new THREE.TextureLoader().load('img/ciro-hero.webp?v=2'); tex.colorSpace=THREE.SRGBColorSpace;
 const PW=3.05,PH=3.82;
 const photo=new THREE.Mesh(new THREE.PlaneGeometry(PW,PH),new THREE.MeshBasicMaterial({map:tex}));
 heroGrp.add(photo);
