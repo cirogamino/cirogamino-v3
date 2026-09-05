@@ -163,7 +163,7 @@ footer{position:relative;z-index:5;border-top:1px solid var(--line);padding:40px
 <body>
 
 <canvas id="space"></canvas>
-<img id="glow-fallback" src="img/ciro-hero.webp?v=2" alt="Ciro Gamino">
+<img id="glow-fallback" src="img/ciro-med-scene.webp?v=3" alt="Ciro Gamino">
 <div class="vignette"></div>
 <div class="grain"></div>
 
@@ -208,7 +208,7 @@ footer{position:relative;z-index:5;border-top:1px solid var(--line);padding:40px
     The fleet ships it; he signs off.</p>
   </div>
   <div class="human-grid">
-    <div class="pcard rv" data-tilt><img src="img/ciro-hero.webp?v=2" alt="Ciro Gamino portrait"><div class="cap"><b>Ciro Gamino</b><span>FOUNDER · OPERATOR · THE 1 HUMAN</span></div></div>
+    <div class="pcard rv" data-tilt><img src="img/ciro-med-scene.webp?v=3" alt="Ciro laughing at a Mediterranean sunset, jacket over shoulders"><div class="cap"><b>The Mediterranean cut</b><span>TAN · SUNSET · JACKET, NO SHIRT — HIS PICK</span></div></div>
     <div class="pcard rv" data-tilt><img src="img/ciro-side.webp?v=2" alt="Ciro Gamino side profile"><div class="cap"><b>Watching the machines work</b><span>EVERY ARENA, EVERY NIGHT</span></div></div>
   </div>
   <p class="human-side rv">By day the fleet runs volleyball nights, real-estate pipelines, a mockumentary office and a
@@ -386,9 +386,19 @@ for(let i=0;i<4;i++){
 }
 ringGrp.position.y=-2.9; scene.add(ringGrp);
 
+/* ---- MEDITERRANEAN DEPTH LAYER — the sea behind the operator ---- */
+const medTex=new THREE.TextureLoader().load('img/med-backdrop.webp?v=3'); medTex.colorSpace=THREE.SRGBColorSpace;
+const medBack=new THREE.Mesh(new THREE.PlaneGeometry(30,17),
+  new THREE.MeshBasicMaterial({map:medTex,transparent:true,opacity:.85,depthWrite:false}));
+medBack.position.set(0,-.5,-9); scene.add(medBack);
+const medGlow=new THREE.Mesh(new THREE.PlaneGeometry(24,13.5),
+  new THREE.MeshBasicMaterial({color:0xe8a33d,transparent:true,opacity:.05,blending:THREE.AdditiveBlending,depthWrite:false}));
+medGlow.position.set(0,0,-8.5); scene.add(medGlow);
+
+
 /* ---- THE OPERATOR: photo slab + frame + glow ---- */
 const heroGrp=new THREE.Group();
-const tex=new THREE.TextureLoader().load('img/ciro-hero.webp?v=2'); tex.colorSpace=THREE.SRGBColorSpace;
+const tex=new THREE.TextureLoader().load('img/ciro-med-scene.webp?v=3'); tex.colorSpace=THREE.SRGBColorSpace;
 const PW=3.05,PH=3.82;
 const photo=new THREE.Mesh(new THREE.PlaneGeometry(PW,PH),new THREE.MeshBasicMaterial({map:tex}));
 heroGrp.add(photo);
@@ -457,10 +467,20 @@ const clock=new THREE.Clock();
   dust.rotation.y=t*.03;
   ringGrp.rotation.y=t*.05;
   const sp=scrollY/innerHeight;
+  /* THE OPERATOR COMES ALIVE: rises, grows and turns toward you as you scroll */
+  const rise=sp*2.1, grow=1+sp*.38;
+  heroGrp.position.y=.1+rise+Math.sin(t*.9)*.12;
+  const baseS=isMobile?.72:1;
+  heroGrp.scale.setScalar(baseS*grow);
+  heroGrp.rotation.z=Math.sin(sp*2.4)*.05;
+  /* mediterranean depth layer drifts slower — real parallax */
+  medBack.position.y=-.5+sp*2.6+Math.sin(t*.3)*.15;
+  medBack.rotation.z=Math.sin(t*.1)*.01;
+  medGlow.position.y=sp*2.6;
   camera.position.z=8.5-sp*1.6;
   camera.position.x+=(mx*.55-camera.position.x)*.05;
   camera.position.y+=(-my*.4+sp*1.2-camera.position.y)*.05;
-  camera.lookAt(heroGrp.position.x*.5,0,0);
+  camera.lookAt(heroGrp.position.x*.5,sp*1.4,0);
   renderer.render(scene,camera);
 })();
 </script>
