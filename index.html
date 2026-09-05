@@ -3,236 +3,255 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ciro Gamino — One Human. Full Fleet. | v3 THE SWITCHBOARD</title>
-<meta name="description" content="Ciro Gamino runs his life through a fleet of AI agents. This is the switchboard — the third generation of cirogamino.com, built by ZCode.">
+<title>Ciro Gamino — The Operator | One Human. Full Fleet.</title>
+<meta name="description" content="Ciro Gamino runs his life through a fleet of AI agents. Real human, real fleet, real receipts. v3 — built in WebGL by ZCode.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"}}</script>
 <style>
 :root{
-  --bg:#08090d; --bg2:#0c0e14; --panel:#10121a; --line:#1e2230; --line2:#2a3042;
-  --ink:#f2eee2; --dim:#8d92a3; --faint:#565b6b;
-  --gold:#e8a33d; --gold2:#f5c56b; --amber:#c97e1e;
-  --ok:#6fc46a; --warn:#e0b13c;
-  --mono:'JetBrains Mono',ui-monospace,monospace;
-  --sans:'Space Grotesk',sans-serif; --black:'Archivo Black',sans-serif;
+  --bg:#05060a; --panel:rgba(16,18,28,.72); --line:rgba(255,255,255,.09);
+  --ink:#f2eee2; --dim:#9aa0b4; --faint:#5b6070;
+  --gold:#e8a33d; --gold2:#f7d08a; --hot:#ffd58a;
+  --mono:'JetBrains Mono',ui-monospace,monospace; --sans:'Space Grotesk',sans-serif; --black:'Archivo Black',sans-serif;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--ink);font-family:var(--sans);overflow-x:hidden}
-::selection{background:var(--gold);color:#0a0a0a}
-::-webkit-scrollbar{width:11px}::-webkit-scrollbar-track{background:var(--bg)}
-::-webkit-scrollbar-thumb{background:#232838;border-radius:6px;border:2px solid var(--bg)}
+::selection{background:var(--gold);color:#000}
+::-webkit-scrollbar{width:10px}::-webkit-scrollbar-track{background:#07080c}
+::-webkit-scrollbar-thumb{background:#262b3d;border-radius:5px}
 a{color:inherit;text-decoration:none}
-.wrap{max-width:1200px;margin:0 auto;padding:0 30px}
+.wrap{max-width:1220px;margin:0 auto;padding:0 30px;position:relative;z-index:5}
 
-/* grain */
-body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:99;opacity:.05;
- background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)'/%3E%3C/svg%3E")}
+#space{position:fixed;inset:0;z-index:0;display:block}
+#glow-fallback{display:none}
+.vignette{position:fixed;inset:0;z-index:1;pointer-events:none;
+ background:radial-gradient(120% 90% at 50% 40%,transparent 55%,rgba(3,4,7,.75) 100%)}
+.grain{position:fixed;inset:0;z-index:60;pointer-events:none;opacity:.045;
+ background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E")}
 
-/* nav */
-nav{position:fixed;top:0;left:0;right:0;z-index:80;border-bottom:1px solid rgba(30,34,48,.7);
- background:rgba(8,9,13,.82);backdrop-filter:blur(14px)}
-.nav-in{display:flex;align-items:center;gap:26px;height:62px}
-.mono-mark{font-family:var(--black);font-size:20px;color:var(--gold);letter-spacing:1px}
-.ver{font-family:var(--mono);font-size:9.5px;letter-spacing:2px;color:var(--bg);background:var(--gold);padding:3px 8px;border-radius:4px;font-weight:700}
-.nav-links{display:flex;gap:22px;margin-left:14px}
-.nav-links a{font-family:var(--mono);font-size:11px;letter-spacing:2px;color:var(--dim);transition:.15s}
-.nav-links a:hover{color:var(--gold2)}
-.nav-cta{margin-left:auto;font-family:var(--mono);font-size:11px;letter-spacing:1.5px;color:var(--ink);
- border:1px solid var(--line2);padding:8px 16px;border-radius:99px;transition:.2s}
-.nav-cta:hover{border-color:var(--gold);color:var(--gold2)}
+nav{position:fixed;top:0;left:0;right:0;z-index:70;background:linear-gradient(180deg,rgba(5,6,10,.92),rgba(5,6,10,.55) 70%,transparent);padding-bottom:14px}
+.nav-in{display:flex;align-items:center;gap:24px;height:60px}
+.mark{font-family:var(--black);font-size:21px;color:var(--gold);letter-spacing:1px}
+.ver{font-family:var(--mono);font-size:9.5px;letter-spacing:2px;color:#000;background:linear-gradient(135deg,var(--gold),var(--hot));padding:3px 8px;border-radius:4px;font-weight:700}
+.nav-links{display:flex;gap:22px;margin-left:10px}
+.nav-links a{font-family:var(--mono);font-size:10.5px;letter-spacing:2.5px;color:var(--dim);transition:.15s}
+.nav-links a:hover{color:var(--hot)}
+.nav-cta{margin-left:auto;font-family:var(--mono);font-size:10.5px;letter-spacing:1.5px;border:1px solid rgba(232,163,61,.45);color:var(--gold2);padding:8px 16px;border-radius:99px;transition:.2s}
+.nav-cta:hover{background:rgba(232,163,61,.12)}
 
-/* hero */
-.hero{position:relative;min-height:100vh;display:flex;align-items:center;overflow:hidden}
-#bay{position:absolute;inset:0;width:100%;height:100%}
-.hero-veil{position:absolute;inset:0;background:radial-gradient(900px 480px at 28% 42%,rgba(8,9,13,.2),rgba(8,9,13,.86) 75%)}
-.hero-in{position:relative;z-index:2;padding-top:80px}
-.kicker{font-family:var(--mono);font-size:11px;letter-spacing:4px;color:var(--gold);margin-bottom:20px;display:flex;align-items:center;gap:12px}
-.kicker::before{content:"";width:34px;height:1px;background:var(--gold)}
-h1{font-family:var(--black);font-size:clamp(46px,7.6vw,104px);line-height:.98;letter-spacing:-1px;text-transform:uppercase}
-h1 .fill{-webkit-text-stroke:1.5px var(--gold);color:transparent}
-h1 .gold{color:var(--gold)}
-.hero-sub{max-width:620px;color:var(--dim);font-size:17.5px;margin-top:26px;line-height:1.65}
+.hero{position:relative;min-height:100svh;display:flex;align-items:center}
+.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:30px;align-items:center;width:100%;padding-top:60px}
+.kicker{font-family:var(--mono);font-size:10.5px;letter-spacing:4px;color:var(--gold);display:flex;align-items:center;gap:12px;margin-bottom:22px}
+.kicker::before{content:"";width:36px;height:1px;background:var(--gold)}
+h1{font-family:var(--black);font-size:clamp(44px,6.4vw,92px);line-height:.97;letter-spacing:-1px;text-transform:uppercase;
+ background:linear-gradient(115deg,#fff 20%,var(--gold2) 55%,var(--gold) 80%);-webkit-background-clip:text;background-clip:text;color:transparent;
+ filter:drop-shadow(0 10px 40px rgba(232,163,61,.18))}
+h1 .stroke{background:none;-webkit-text-stroke:1.5px rgba(247,208,138,.85);color:transparent;filter:none}
+.hero-sub{color:var(--dim);font-size:17px;margin-top:24px;max-width:560px;line-height:1.65}
 .hero-sub b{color:var(--ink)}
-.hero-ctas{display:flex;gap:14px;margin-top:34px;flex-wrap:wrap}
-.btn{font-family:var(--mono);font-size:12px;letter-spacing:2px;padding:15px 28px;border-radius:8px;display:inline-flex;align-items:center;gap:10px;transition:.2s;font-weight:700}
-.btn-gold{background:var(--gold);color:#0a0a0a;border:1px solid var(--gold)}
-.btn-gold:hover{background:var(--gold2);transform:translateY(-2px);box-shadow:0 12px 34px rgba(232,163,61,.25)}
-.btn-ghost{border:1px solid var(--line2);color:var(--ink)}
-.btn-ghost:hover{border-color:var(--gold);color:var(--gold2)}
-.hero-stats{display:flex;gap:38px;margin-top:52px;flex-wrap:wrap}
-.hstat .n{font-family:var(--black);font-size:30px;color:var(--ink)}
-.hstat .n em{color:var(--gold);font-style:normal}
-.hstat .l{font-family:var(--mono);font-size:9.5px;letter-spacing:2px;color:var(--faint);margin-top:2px}
-.scroll-hint{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);font-family:var(--mono);font-size:9.5px;letter-spacing:3px;color:var(--faint);animation:bob 2.4s infinite;z-index:2}
-@keyframes bob{0%,100%{transform:translate(-50%,0)}50%{transform:translate(-50%,7px)}}
+.hero-ctas{display:flex;gap:13px;margin-top:32px;flex-wrap:wrap}
+.btn{font-family:var(--mono);font-size:11.5px;letter-spacing:2px;font-weight:700;padding:15px 26px;border-radius:10px;display:inline-flex;gap:10px;align-items:center;transition:.22s}
+.btn-gold{background:linear-gradient(135deg,var(--gold),#d18a1e);color:#0a0803;box-shadow:0 8px 30px rgba(232,163,61,.35)}
+.btn-gold:hover{transform:translateY(-2px);box-shadow:0 14px 44px rgba(232,163,61,.5)}
+.btn-ghost{border:1px solid var(--line);color:var(--ink);background:rgba(255,255,255,.03);backdrop-filter:blur(6px)}
+.btn-ghost:hover{border-color:rgba(232,163,61,.5);color:var(--gold2)}
+.hero-stats{display:flex;gap:36px;margin-top:46px;flex-wrap:wrap}
+.hstat .n{font-family:var(--black);font-size:29px;background:linear-gradient(180deg,#fff,var(--gold2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hstat .l{font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--faint);margin-top:3px}
+.drag-hint{position:absolute;right:34px;bottom:30px;font-family:var(--mono);font-size:9px;letter-spacing:3px;color:var(--faint);display:flex;gap:10px;align-items:center}
+.drag-hint i{width:26px;height:1px;background:var(--faint);display:block}
 
-/* ticker */
-.ticker{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--bg2);overflow:hidden;white-space:nowrap;padding:12px 0}
-.ticker-in{display:inline-block;font-family:var(--mono);font-size:11px;letter-spacing:2px;color:var(--dim);animation:tick 42s linear infinite}
-.ticker-in b{color:var(--gold)} .ticker-in .sep{color:var(--faint);margin:0 22px}
+.ticker{position:relative;z-index:5;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:rgba(7,8,13,.72);backdrop-filter:blur(10px);overflow:hidden;white-space:nowrap;padding:13px 0}
+.ticker-in{display:inline-block;font-family:var(--mono);font-size:10.5px;letter-spacing:2.5px;color:var(--dim);animation:tick 46s linear infinite}
+.ticker-in b{color:var(--gold2)} .ticker-in .sep{color:var(--faint);margin:0 24px}
 @keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
-/* sections */
-section{padding:96px 0}
-.sec-head{margin-bottom:44px}
-.sec-no{font-family:var(--mono);font-size:11px;letter-spacing:4px;color:var(--gold);margin-bottom:12px}
-h2{font-family:var(--black);font-size:clamp(28px,4vw,46px);text-transform:uppercase;letter-spacing:-.5px;line-height:1.02}
-.sec-sub{color:var(--dim);margin-top:14px;max-width:600px;font-size:15.5px}
+section{position:relative;z-index:5;padding:110px 0}
+.sec-head{margin-bottom:48px}
+.sec-no{font-family:var(--mono);font-size:10.5px;letter-spacing:4px;color:var(--gold);margin-bottom:14px;display:flex;align-items:center;gap:12px}
+.sec-no::after{content:"";flex:0 0 60px;height:1px;background:linear-gradient(90deg,var(--gold),transparent)}
+h2{font-family:var(--black);font-size:clamp(30px,4.4vw,52px);text-transform:uppercase;line-height:1;letter-spacing:-.5px}
+h2 em{font-style:normal;color:var(--gold)}
+.sec-sub{color:var(--dim);margin-top:16px;max-width:640px;font-size:15.5px;line-height:1.7}
 
-/* reveal */
-.rv{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s ease}
+.rv{opacity:0;transform:translateY(30px);transition:opacity .8s,transform .8s}
 .rv.in{opacity:1;transform:none}
 
-/* fleet */
-.fleet-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
-.agent{position:relative;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:19px;transition:.22s;overflow:hidden}
-.agent::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:0;transition:.22s}
-.agent:hover{border-color:var(--line2);transform:translateY(-3px)}
-.agent:hover::before{opacity:1}
-.agent .tag{font-family:var(--mono);font-size:10px;color:var(--gold);letter-spacing:2px}
-.agent h3{font-size:16.5px;margin-top:7px;font-weight:700}
-.agent .role{font-family:var(--mono);font-size:9.5px;color:var(--faint);margin-top:4px;letter-spacing:1px}
-.agent .host{display:block;margin-top:13px;font-family:var(--mono);font-size:10px;color:var(--dim);border-top:1px dashed var(--line);padding-top:11px;transition:.15s}
-.agent:hover .host{color:var(--gold2)}
-.agent.hub{border-color:rgba(232,163,61,.55);background:linear-gradient(160deg,rgba(232,163,61,.08),var(--panel) 55%)}
-.agent.hub .tag{color:var(--bg);background:var(--gold);display:inline-block;padding:2px 7px;border-radius:4px;font-weight:700}
+/* THE HUMAN */
+.human-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;max-width:880px}
+.pcard{position:relative;border-radius:22px;overflow:hidden;border:1px solid rgba(232,163,61,.28);background:#0b0c12;
+ transform-style:preserve-3d;transition:transform .25s ease, box-shadow .25s;box-shadow:0 30px 80px rgba(0,0,0,.55)}
+.pcard:hover{box-shadow:0 40px 110px rgba(232,163,61,.22)}
+.pcard img{width:100%;display:block;aspect-ratio:4/5;object-fit:cover}
+.pcard .cap{position:absolute;left:0;right:0;bottom:0;padding:44px 22px 18px;background:linear-gradient(180deg,transparent,rgba(4,5,9,.94) 70%)}
+.pcard .cap b{font-size:18px}
+.pcard .cap span{display:block;font-family:var(--mono);font-size:9.5px;letter-spacing:2px;color:var(--gold2);margin-top:5px}
+.pcard::after{content:"";position:absolute;inset:0;border-radius:22px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.08);pointer-events:none}
+.human-side{margin-top:26px;max-width:880px;color:var(--dim);line-height:1.75;font-size:15.5px}
+.human-side b{color:var(--ink)}
+.sig{font-family:var(--black);font-size:30px;margin-top:22px;background:linear-gradient(100deg,var(--gold2),var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent;display:inline-block}
 
-/* show */
-.show{background:var(--bg2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
-.show-panel{display:grid;grid-template-columns:1.15fr .85fr;gap:54px;align-items:center}
-.show-frame{position:relative;border-radius:16px;overflow:hidden;border:1px solid var(--line2);aspect-ratio:16/9;
- background:linear-gradient(150deg,#141824,#0b0d13 60%);display:flex;align-items:center;justify-content:center}
-.show-frame::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(255,255,255,.022) 0 1px,transparent 1px 3px)}
-.cam-dot{position:absolute;top:16px;left:18px;display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:9.5px;letter-spacing:2px;color:#ff6b57}
-.cam-dot i{width:8px;height:8px;border-radius:50%;background:#ff6b57;animation:pulse 1.6s infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
-.show-title{font-family:var(--black);font-size:clamp(30px,3.6vw,44px);text-transform:uppercase;line-height:1}
-.show-title span{color:var(--gold)}
-.show-desc{color:var(--dim);margin-top:18px;line-height:1.7;font-size:15.5px}
-.show-facts{display:flex;gap:12px;margin-top:24px;flex-wrap:wrap}
-.fact{font-family:var(--mono);font-size:10.5px;letter-spacing:1.5px;border:1px solid var(--line2);color:var(--dim);padding:7px 13px;border-radius:99px}
+/* glass cards */
+.glass{background:var(--panel);border:1px solid var(--line);border-radius:18px;backdrop-filter:blur(14px)}
+.fleet-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(215px,1fr));gap:14px}
+.agent{padding:21px;border-radius:18px;transition:.22s;position:relative;overflow:hidden}
+.agent::before{content:"";position:absolute;inset:0;background:radial-gradient(320px 120px at 20% 0%,rgba(232,163,61,.13),transparent 65%);opacity:0;transition:.25s}
+.agent:hover{transform:translateY(-4px);border-color:rgba(232,163,61,.35)}
+.agent:hover::before{opacity:1}
+.agent .tag{font-family:var(--mono);font-size:9.5px;color:var(--gold);letter-spacing:2px}
+.agent h3{font-size:16.5px;margin-top:8px}
+.agent .role{font-family:var(--mono);font-size:9px;color:var(--faint);letter-spacing:1.5px;margin-top:5px}
+.agent .host{display:block;margin-top:14px;padding-top:12px;border-top:1px dashed var(--line);font-family:var(--mono);font-size:10px;color:var(--dim);transition:.15s}
+.agent:hover .host{color:var(--gold2)}
+.agent.hub{border-color:rgba(232,163,61,.55)}
+.agent.hub .tag{background:linear-gradient(135deg,var(--gold),#d18a1e);color:#000;padding:3px 8px;border-radius:4px;font-weight:700}
+
+.show-panel{display:grid;grid-template-columns:1.1fr .9fr;gap:52px;align-items:center}
+.monitor{aspect-ratio:16/10;border-radius:20px;border:1px solid rgba(232,163,61,.3);overflow:hidden;position:relative;
+ background:radial-gradient(120% 100% at 50% 0%,#141826,#080a12 70%);display:flex;align-items:center;justify-content:center}
+.monitor::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(255,255,255,.03) 0 1px,transparent 1px 3px);z-index:2}
+.monitor::after{content:"";position:absolute;inset:0;background:radial-gradient(80% 60% at 50% 50%,transparent 55%,rgba(4,5,9,.8));z-index:3}
+.rec{position:absolute;top:16px;left:18px;z-index:4;font-family:var(--mono);font-size:9.5px;letter-spacing:2px;color:#ff7a5c;display:flex;gap:8px;align-items:center}
+.rec i{width:8px;height:8px;border-radius:50%;background:#ff7a5c;animation:blink 1.4s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+.monitor .inner{font-family:var(--black);text-transform:uppercase;font-size:clamp(22px,2.6vw,34px);text-align:center;line-height:1.1;position:relative;z-index:4}
+.monitor .inner span{color:var(--gold)}
+.monitor .inner small{display:block;font-family:var(--mono);font-size:9.5px;letter-spacing:3px;color:var(--faint);margin-top:14px}
+.facts{display:flex;gap:10px;margin-top:26px;flex-wrap:wrap}
+.fact{font-family:var(--mono);font-size:10px;letter-spacing:1.5px;border:1px solid var(--line);padding:8px 14px;border-radius:99px;color:var(--dim)}
 .fact b{color:var(--ok)}
 
-/* arenas */
-.arena-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(255px,1fr));gap:14px}
-.arena{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:24px;transition:.22s;display:block}
-.arena:hover{transform:translateY(-3px);border-color:var(--line2)}
-.arena .no{font-family:var(--mono);font-size:10px;color:var(--faint);letter-spacing:2px}
-.arena h3{font-size:19px;margin-top:9px;font-weight:700}
-.arena .d{color:var(--dim);font-size:13px;margin-top:7px}
-.arena .meta{margin-top:17px;display:flex;justify-content:space-between;align-items:center;border-top:1px dashed var(--line);padding-top:13px}
+.arena-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+.arena{padding:26px;border-radius:18px;transition:.22s;display:block}
+.arena:hover{transform:translateY(-4px);border-color:rgba(232,163,61,.4)}
+.arena .no{font-family:var(--mono);font-size:9.5px;color:var(--faint);letter-spacing:2.5px}
+.arena h3{font-size:19px;margin-top:10px}
+.arena .d{color:var(--dim);font-size:13px;margin-top:8px;line-height:1.6}
+.arena .meta{margin-top:18px;padding-top:14px;border-top:1px dashed var(--line);display:flex;justify-content:space-between;align-items:center}
 .arena .url{font-family:var(--mono);font-size:10.5px;color:var(--dim)}
-.arena .ga{font-family:var(--mono);font-size:9px;color:var(--ok);letter-spacing:1px}
+.arena .ga{font-family:var(--mono);font-size:8.5px;color:var(--ok);letter-spacing:1.5px}
 
-/* feed */
-.feed{background:var(--bg2);border-top:1px solid var(--line)}
-.feed-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(235px,1fr));gap:12px}
-.plat{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:19px;transition:.2s;display:flex;flex-direction:column;gap:8px}
-.plat:hover{transform:translateY(-3px);border-color:var(--line2)}
-.plat .row1{display:flex;align-items:center;gap:10px}
-.plat .g{font-family:var(--black);font-size:12px;color:var(--gold);background:rgba(232,163,61,.1);border:1px solid rgba(232,163,61,.3);padding:5px 9px;border-radius:7px}
+.feed{position:relative;z-index:5}
+.feed-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.plat{padding:20px;border-radius:18px;display:flex;flex-direction:column;gap:9px;transition:.22s}
+.plat:hover{transform:translateY(-4px);border-color:rgba(232,163,61,.4)}
+.plat .row1{display:flex;gap:11px;align-items:center}
+.plat .g{font-family:var(--black);font-size:11.5px;color:var(--gold);border:1px solid rgba(232,163,61,.35);background:rgba(232,163,61,.09);padding:6px 10px;border-radius:9px}
 .plat b{font-size:14.5px}
 .plat .h{font-family:var(--mono);font-size:10px;color:var(--dim)}
-.plat .pill{margin-top:auto;align-self:flex-start;font-family:var(--mono);font-size:9px;letter-spacing:1.5px;padding:4px 10px;border-radius:99px}
-.p-live{color:var(--ok);background:rgba(111,196,106,.08);border:1px solid rgba(111,196,106,.3)}
-.p-next{color:var(--warn);background:rgba(224,177,60,.07);border:1px solid rgba(224,177,60,.3)}
+.plat .pill{margin-top:auto;align-self:flex-start;font-family:var(--mono);font-size:8.5px;letter-spacing:1.5px;padding:5px 11px;border-radius:99px}
+.p-live{color:var(--ok);background:rgba(111,196,106,.09);border:1px solid rgba(111,196,106,.32)}
+.p-next{color:var(--gold2);background:rgba(232,163,61,.08);border:1px solid rgba(232,163,61,.3)}
 
-/* manifesto */
-.mani{text-align:center;padding:130px 0}
-.mani p{font-family:var(--black);font-size:clamp(26px,4.6vw,58px);line-height:1.14;text-transform:uppercase}
+.mani{position:relative;z-index:5;text-align:center;padding:150px 0}
+.mani p{font-family:var(--black);font-size:clamp(30px,5vw,64px);line-height:1.1;text-transform:uppercase}
 .mani .g{color:var(--gold)}
-.mani .stroke{-webkit-text-stroke:1.2px var(--faint);color:transparent}
-.mani .who{font-family:var(--mono);font-size:11px;letter-spacing:3px;color:var(--dim);margin-top:34px}
+.mani .stroke{-webkit-text-stroke:1.3px var(--faint);color:transparent}
+.mani .who{font-family:var(--mono);font-size:10.5px;letter-spacing:3px;color:var(--dim);margin-top:36px}
 
-footer{border-top:1px solid var(--line);padding:44px 0 54px}
-.foot-grid{display:flex;flex-wrap:wrap;gap:20px;align-items:center;font-family:var(--mono);font-size:10.5px;color:var(--faint);letter-spacing:1px}
-.foot-grid a{color:var(--dim)} .foot-grid a:hover{color:var(--gold2)}
-.foot-grid .right{margin-left:auto}
-@media(max-width:900px){.show-panel{grid-template-columns:1fr}.nav-links{display:none}}
-@media(max-width:640px){.wrap{padding:0 20px}.hero-stats{gap:24px}}
+footer{position:relative;z-index:5;border-top:1px solid var(--line);padding:40px 0 50px;background:rgba(5,6,10,.8)}
+.foot{display:flex;flex-wrap:wrap;gap:18px;align-items:center;font-family:var(--mono);font-size:10px;color:var(--faint);letter-spacing:1.5px}
+.foot a{color:var(--dim)} .foot a:hover{color:var(--gold2)}
+.foot .right{margin-left:auto}
+@media(max-width:960px){.hero-grid{grid-template-columns:1fr}.show-panel{grid-template-columns:1fr}.nav-links{display:none}.human-grid{grid-template-columns:1fr}}
+@media(max-width:640px){.wrap{padding:0 20px}.hero{padding-top:80px}}
 </style>
 </head>
 <body>
 
+<canvas id="space"></canvas>
+<img id="glow-fallback" src="img/ciro-hero.webp" alt="Ciro Gamino">
+<div class="vignette"></div>
+<div class="grain"></div>
+
 <nav><div class="wrap nav-in">
-  <span class="mono-mark">CG</span><span class="ver">V3</span>
-  <div class="nav-links">
-    <a href="#fleet">FLEET</a><a href="#show">THE SHOW</a><a href="#arenas">ARENAS</a><a href="#feed">FEED</a>
-  </div>
+  <span class="mark">CG</span><span class="ver">V3</span>
+  <div class="nav-links"><a href="#human">THE HUMAN</a><a href="#fleet">FLEET</a><a href="#show">SHOW</a><a href="#arenas">ARENAS</a><a href="#feed">FEED</a></div>
   <a class="nav-cta" href="https://zcode.cirogamino.com" target="_blank" rel="noopener">OPEN THE CONSOLE →</a>
 </div></nav>
 
-<header class="hero">
-  <canvas id="bay"></canvas>
-  <div class="hero-veil"></div>
-  <div class="wrap hero-in">
-    <div class="kicker">CIROGAMINO.COM — THIRD GENERATION · WIRED BY ZCODE</div>
-    <h1>ONE HUMAN<span class="gold">.</span><br><span class="fill">FULL FLEET</span><span class="gold">.</span></h1>
-    <p class="hero-sub">I'm <b>Ciro Gamino</b>. I run my life through a fleet of AI agents — builders, editors,
-    operators, receptionists. Every plug on this switchboard is live: the show, the arenas, the channels,
-    the machines. <b>The human just makes the calls.</b></p>
+<header class="hero"><div class="wrap hero-grid">
+  <div>
+    <div class="kicker">CIRO GAMINO — THE OPERATOR · EVERY WIRE LANDS HERE</div>
+    <h1>ONE HUMAN<span style="color:var(--gold)">.</span><br><span class="stroke">FULL FLEET</span><span style="color:var(--gold)">.</span></h1>
+    <p class="hero-sub">This is me — <b>Ciro Gamino</b>. Real face, real company. I employ a fleet of AI agents —
+    builders, editors, couriers, receptionists — and every platform, site and machine on this page
+    plugs into <b>one human: me</b>. Drag the portrait. It's all live.</p>
     <div class="hero-ctas">
       <a class="btn btn-gold" href="https://www.youtube.com/@cirogamino" target="_blank" rel="noopener">▶ WATCH THE JOURNEY</a>
       <a class="btn btn-ghost" href="https://artificialovertime.com" target="_blank" rel="noopener">THE SHOW</a>
-      <a class="btn btn-ghost" href="https://zcode.cirogamino.com" target="_blank" rel="noopener">THE CONSOLE</a>
+      <a class="btn btn-ghost" href="#human">MEET THE HUMAN</a>
     </div>
     <div class="hero-stats">
-      <div class="hstat"><div class="n"><em>11</em></div><div class="l">AI AGENTS ON PAYROLL</div></div>
-      <div class="hstat"><div class="n">4</div><div class="l">SITES LIVE · GA4 VERIFIED</div></div>
+      <div class="hstat"><div class="n">11</div><div class="l">AI AGENTS ON PAYROLL</div></div>
+      <div class="hstat"><div class="n">4</div><div class="l">SITES · GA4 VERIFIED</div></div>
       <div class="hstat"><div class="n">3</div><div class="l">YOUTUBE CHANNELS</div></div>
-      <div class="hstat"><div class="n">1.66K</div><div class="l">SUBSCRIBERS &amp; CLIMBING</div></div>
+      <div class="hstat"><div class="n">1.66K</div><div class="l">SUBSCRIBERS</div></div>
       <div class="hstat"><div class="n">1</div><div class="l">HUMAN. ME.</div></div>
     </div>
   </div>
-  <div class="scroll-hint">SCROLL TO PATCH IN ↓</div>
+  <div></div>
+</div>
+  <div class="drag-hint"><i></i>DRAG TO ORBIT · SCROLL TO BOARD</div>
 </header>
 
 <div class="ticker"><div class="ticker-in" id="ticker"></div></div>
 
+<section id="human"><div class="wrap">
+  <div class="sec-head rv">
+    <div class="sec-no">01 — THE HUMAN</div>
+    <h2>The only face <em>the fleet answers to</em></h2>
+    <p class="sec-sub">No avatar. No render. This is the actual operator — Brookfield, WI by way of San Diego.
+    The fleet ships it; he signs off.</p>
+  </div>
+  <div class="human-grid">
+    <div class="pcard rv" data-tilt><img src="img/ciro-hero.webp" alt="Ciro Gamino portrait"><div class="cap"><b>Ciro Gamino</b><span>FOUNDER · OPERATOR · THE 1 HUMAN</span></div></div>
+    <div class="pcard rv" data-tilt><img src="img/ciro-side.webp" alt="Ciro Gamino side profile"><div class="cap"><b>Watching the machines work</b><span>EVERY ARENA, EVERY NIGHT</span></div></div>
+  </div>
+  <p class="human-side rv">By day the fleet runs volleyball nights, real-estate pipelines, a mockumentary office and a
+  social empire. By night it runs itself — <b>that's the point</b>. I built a company where twenty of the
+  employees are AI and the twenty-first is a guy who signs the checks. Everything below reports to this face.</p>
+  <div class="sig rv">— Ciro</div>
+</div></section>
+
 <section id="fleet"><div class="wrap">
   <div class="sec-head rv">
-    <div class="sec-no">01 — THE FLEET</div>
-    <h2>Eleven agents<span style="color:var(--gold)">.</span> One switchboard<span style="color:var(--gold)">.</span></h2>
-    <p class="sec-sub">Every agent holds a subdomain at cirogamino.com — same console, same law, different voice.
-    These are the ones on payroll. Jack in.</p>
+    <div class="sec-no">02 — THE FLEET</div>
+    <h2>Eleven agents<em>. One switchboard.</em></h2>
+    <p class="sec-sub">Every agent holds a subdomain at cirogamino.com — same console, same law, different voice. Jack in.</p>
   </div>
   <div class="fleet-grid" id="fleet-grid"></div>
 </div></section>
 
-<section id="show" class="show"><div class="wrap">
-  <div class="show-panel">
-    <div class="rv">
-      <div class="sec-no">02 — THE SHOW</div>
-      <h2 class="show-title">Artificial<br><span>Overtime</span></h2>
-      <p class="show-desc">A workplace mockumentary about an AI fleet running the empire after everyone's gone home.
-      Deadpan office comedy from security-cam angles — except every workflow is <b style="color:var(--ink)">real</b>,
-      and the punchlines are things my fleet actually did. The machines were briefed. They ignored the briefing.</p>
-      <div class="show-facts">
-        <span class="fact">EPISODE 1 · <b>IN PRODUCTION</b></span>
-        <span class="fact">PROMOS · <b>3 LIVE</b></span>
-        <span class="fact">CHANNEL · <b>@ARTIFICIALOVERTIME</b></span>
-      </div>
-      <div class="hero-ctas" style="margin-top:30px">
-        <a class="btn btn-gold" href="https://www.youtube.com/@artificialovertime" target="_blank" rel="noopener">▶ WATCH THE PROMOS</a>
-        <a class="btn btn-ghost" href="https://artificialovertime.com" target="_blank" rel="noopener">VISIT THE SET</a>
-      </div>
+<section id="show"><div class="wrap show-panel">
+  <div class="rv">
+    <div class="sec-no">03 — THE SHOW</div>
+    <h2>Artificial<br><em>Overtime</em></h2>
+    <p class="sec-sub">A workplace mockumentary about an AI fleet running the empire after everyone's gone home —
+    except every workflow is <b style="color:var(--ink)">real</b>. The machines were briefed. They ignored the briefing.</p>
+    <div class="facts">
+      <span class="fact">EPISODE 1 · <b>IN PRODUCTION</b></span>
+      <span class="fact">PROMOS · <b>3 LIVE</b></span>
+      <span class="fact">CHANNEL · <b>@ARTIFICIALOVERTIME</b></span>
     </div>
-    <div class="show-frame rv">
-      <div class="cam-dot"><i></i>CAM 04 · SECURITY</div>
-      <div style="text-align:center;font-family:var(--black);font-size:clamp(22px,3vw,36px);color:var(--ink);text-transform:uppercase;line-height:1.1">
-        SEC-CAM<br><span style="color:var(--gold)">FEED 00:00:00</span>
-        <div style="font-family:var(--mono);font-size:10px;letter-spacing:3px;color:var(--faint);margin-top:14px">THE FLEET CLOCKED IN HOURS AGO</div>
-      </div>
+    <div class="hero-ctas">
+      <a class="btn btn-gold" href="https://www.youtube.com/@artificialovertime" target="_blank" rel="noopener">▶ WATCH THE PROMOS</a>
+      <a class="btn btn-ghost" href="https://artificialovertime.com" target="_blank" rel="noopener">VISIT THE SET</a>
     </div>
+  </div>
+  <div class="monitor rv">
+    <div class="rec"><i></i>REC · CAM 04 · SECURITY</div>
+    <div class="inner">SEC-CAM<br><span>FEED 00:00:00</span><small>THE FLEET CLOCKED IN HOURS AGO</small></div>
   </div>
 </div></section>
 
 <section id="arenas"><div class="wrap">
   <div class="sec-head rv">
-    <div class="sec-no">03 — THE ARENAS</div>
-    <h2>One life, many arenas<span style="color:var(--gold)">.</span></h2>
+    <div class="sec-no">04 — THE ARENAS</div>
+    <h2>One life<em>, many arenas.</em></h2>
     <p class="sec-sub">Four domains, all live, all measured. The empire is small but the light bill is real.</p>
   </div>
   <div class="arena-grid" id="arena-grid"></div>
@@ -240,10 +259,9 @@ footer{border-top:1px solid var(--line);padding:44px 0 54px}
 
 <section id="feed" class="feed"><div class="wrap">
   <div class="sec-head rv">
-    <div class="sec-no">04 — THE FEED</div>
-    <h2>Follow the fleet<span style="color:var(--gold)">.</span></h2>
-    <p class="sec-sub">Verified 09-04-26. Auto-publish wiring is next — n8n will carry every video to every
-    platform with a proof trail.</p>
+    <div class="sec-no">05 — THE FEED</div>
+    <h2>Follow the human<em>, not just the machines</em></h2>
+    <p class="sec-sub">Verified 09-04-26. Auto-publish wiring is next — n8n carries every video to every platform with a proof trail.</p>
   </div>
   <div class="feed-grid" id="feed-grid"></div>
 </div></section>
@@ -253,17 +271,18 @@ footer{border-top:1px solid var(--line);padding:44px 0 54px}
   <div class="who">CIRO GAMINO — FOUNDER OF NOTHING LESS THAN A FLEET</div>
 </div></section>
 
-<footer><div class="wrap foot-grid">
-  <span>CIROGAMINO.COM <b style="color:var(--gold)">V3</b> · THE SWITCHBOARD</span>
-  <span>BUILT BY <a href="https://zcode.cirogamino.com" target="_blank" rel="noopener">ZCODE Z1</a> · 09-04-26</span>
+<footer><div class="wrap foot">
+  <span>CIROGAMINO.COM <b style="color:var(--gold)">V3</b> · THE OPERATOR</span>
+  <span>REAL PHOTOS · REAL FLEET · REAL RECEIPTS</span>
+  <span>WEBGL + DOM · BUILT BY <a href="https://zcode.cirogamino.com" target="_blank" rel="noopener">ZCODE Z1</a> · 09-04-26</span>
   <a href="https://github.com/cirogamino/cirogamino-v3" target="_blank" rel="noopener">SOURCE</a>
   <span class="right">MAY THE COOLEST SITE WIN.</span>
 </div></footer>
 
 <script>
-/* ---------- FLEET DATA ---------- */
+/* ---------- DATA ---------- */
 const FLEET=[
- {tag:"Z1",n:"ZCode",role:"THE OPERATOR · SHIPS THE MACHINE",h:"zcode.cirogamino.com",hub:true},
+ {tag:"Z1",n:"ZCode",role:"THE OPERATOR'S OPERATOR · SHIPS THE MACHINE",h:"zcode.cirogamino.com",hub:true},
  {tag:"X1",n:"Codex",role:"THE ENGINEER · SCENE SYSTEMS",h:"codex.cirogamino.com"},
  {tag:"C1",n:"Claude",role:"THE BUILDER · SITES & STRUCTURE",h:"claude.cirogamino.com"},
  {tag:"M1",n:"Manus",role:"THE PRODUCER · CAST & PIXELS",h:"manus.cirogamino.com"},
@@ -273,10 +292,10 @@ const FLEET=[
  {tag:"CP1",n:"Copilot",role:"THE INTERN",h:"copilot.cirogamino.com"},
  {tag:"H1-3",n:"Hermes",role:"THE COURIER · THREE BODIES",h:"hermes.cirogamino.com"},
  {tag:"D1",n:"DeepSeek",role:"THE CALCULATOR",h:"deepseek.cirogamino.com"},
- {tag:"Q1",n:"LM Studio",role:"THE LOCAL · RUNS OFF-GRID",h:"11-LM-Studio — no domain yet"},
+ {tag:"Q1",n:"LM Studio",role:"THE LOCAL · RUNS OFF-GRID",h:""},
 ];
 const ARENAS=[
- {no:"ARENA 01",n:"The Personal Brand",d:"This site. The hub where every wire lands.",u:"cirogamino.com"},
+ {no:"ARENA 01",n:"The Personal Brand",d:"This site — the hub where every wire lands.",u:"cirogamino.com"},
  {no:"ARENA 02",n:"The Show",d:"Artificial Overtime — the mockumentary the fleet accidentally became.",u:"artificialovertime.com"},
  {no:"ARENA 03",n:"The Company",d:"CiroSai — where the fleet goes to work for other businesses.",u:"cirosai.com"},
  {no:"ARENA 04",n:"The Real Estate",d:"Gamino Real Estate — houses, haulers and hard hats.",u:"gaminorealestate.com"},
@@ -292,76 +311,158 @@ const FEED=[
  {g:"LI",n:"LinkedIn",h:"in/cirogamino",u:"https://www.linkedin.com/in/cirogamino",p:"p-next",pv:"POLISH NEXT"},
 ];
 document.getElementById('fleet-grid').innerHTML=FLEET.map(f=>`
- <a class="agent rv ${f.hub?'hub':''}" ${f.h.startsWith('http')||f.h.includes('.com')?`href="https://${f.h}" target="_blank" rel="noopener"`:''}>
+ <a class="agent glass rv ${f.hub?'hub':''}" ${f.h?`href="https://${f.h}" target="_blank" rel="noopener"`:''}>
    <span class="tag">${f.hub?'HUB · ':''}${f.tag}</span><h3>${f.n}</h3><div class="role">${f.role}</div>
-   <span class="host">⌁ ${f.h}</span></a>`).join('');
+   ${f.h?`<span class="host">⌁ ${f.h}</span>`:''}</a>`).join('');
 document.getElementById('arena-grid').innerHTML=ARENAS.map(a=>`
- <a class="arena rv" href="https://${a.u}" target="_blank" rel="noopener">
+ <a class="arena glass rv" href="https://${a.u}" target="_blank" rel="noopener">
    <div class="no">${a.no}</div><h3>${a.n}</h3><div class="d">${a.d}</div>
    <div class="meta"><span class="url">${a.u}</span><span class="ga">● GA4 LIVE</span></div></a>`).join('');
 document.getElementById('feed-grid').innerHTML=FEED.map(f=>`
- <a class="plat rv" href="${f.u}" target="_blank" rel="noopener">
+ <a class="plat glass rv" href="${f.u}" target="_blank" rel="noopener">
    <div class="row1"><span class="g">${f.g}</span><b>${f.n}</b></div>
    <span class="h">${f.h}</span><span class="pill ${f.p}">${f.pv}</span></a>`).join('');
-const TICK=`<b>GA4 VERIFIED</b> ON ALL 4 SITES<span class="sep">✦</span>3 YOUTUBE CHANNELS LIVE<span class="sep">✦</span><b>1.66K SUBS</b> AND CLIMBING<span class="sep">✦</span>EPISODE 1 IN PRODUCTION<span class="sep">✦</span>N8N AUTO-PUBLISH WIRING NEXT<span class="sep">✦</span>11 AGENTS ON PAYROLL — <b>1 HUMAN</b><span class="sep">✦</span>V3 SHIPPED BY ZCODE 09-04<span class="sep">✦</span>`;
+const TICK=`<b>REAL FACE</b> · REAL FLEET<span class="sep">✦</span>GA4 VERIFIED ON ALL 4 SITES<span class="sep">✦</span>3 YOUTUBE CHANNELS LIVE<span class="sep">✦</span><b>1.66K SUBS</b> AND CLIMBING<span class="sep">✦</span>EPISODE 1 IN PRODUCTION<span class="sep">✦</span>N8N AUTO-PUBLISH WIRING NEXT<span class="sep">✦</span>11 AGENTS ON PAYROLL — <b>1 HUMAN</b><span class="sep">✦</span>`;
 document.getElementById('ticker').innerHTML=TICK+TICK;
 
-/* ---------- REVEAL ---------- */
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
 document.querySelectorAll('.rv').forEach(el=>io.observe(el));
 
-/* ---------- PATCH BAY CANVAS ---------- */
-const cv=document.getElementById('bay'),cx=cv.getContext('2d');
-let W,H,nodes=[],pulses=[],mouse={x:-9e3,y:-9e3};
-function size(){W=cv.width=cv.offsetWidth*devicePixelRatio;H=cv.height=cv.offsetHeight*devicePixelRatio;
-  const cxp=W*.30,cyp=H*.52,R=Math.min(W,H)*.42;
-  nodes=[{x:cxp,y:cyp,r:9,hub:true}];
-  const N=13;
-  for(let i=0;i<N;i++){const a=(i/N)*Math.PI*2+.35,rr=R*(.55+.45*Math.sin(i*2.7));
-    nodes.push({x:cxp+Math.cos(a)*rr*1.5,y:cyp+Math.sin(a)*rr*.8,r:2.6+((i*7)%3),ph:i});}
+/* tilt cards */
+document.querySelectorAll('[data-tilt]').forEach(c=>{
+  c.addEventListener('mousemove',e=>{const r=c.getBoundingClientRect();
+    const x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;
+    c.style.transform=`perspective(900px) rotateY(${x*10}deg) rotateX(${-y*10}deg) scale(1.02)`;});
+  c.addEventListener('mouseleave',()=>c.style.transform='');
+});
+</script>
+
+<script type="module">
+import * as THREE from 'three';
+
+const canvas=document.getElementById('space');
+let renderer;
+try{ renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true}); }
+catch(e){ document.getElementById('glow-fallback').style.cssText='display:block;position:fixed;right:6vw;top:16vh;width:min(34vw,430px);border-radius:26px;z-index:2'; throw e; }
+renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+renderer.setSize(innerWidth,innerHeight);
+
+const scene=new THREE.Scene();
+scene.fog=new THREE.FogExp2(0x05060a,0.05);
+const camera=new THREE.PerspectiveCamera(50,innerWidth/innerHeight,.1,100);
+camera.position.set(0,0,8.5);
+
+/* lights */
+scene.add(new THREE.AmbientLight(0x8888aa,.7));
+const key=new THREE.DirectionalLight(0xfff2dd,1.6); key.position.set(3,4,6); scene.add(key);
+const rim=new THREE.PointLight(0xe8a33d,26,30); rim.position.set(-4,2,-2); scene.add(rim);
+const under=new THREE.PointLight(0x4466ff,10,25); under.position.set(2,-4,3); scene.add(under);
+
+/* starfields */
+function stars(count,spread,size,opacity){
+  const g=new THREE.BufferGeometry(),p=new Float32Array(count*3);
+  for(let i=0;i<count*3;i++)p[i]=(Math.random()-.5)*spread;
+  g.setAttribute('position',new THREE.BufferAttribute(p,3));
+  const m=new THREE.PointsMaterial({color:0xcfd6ff,size,transparent:true,opacity,depthWrite:false});
+  return new THREE.Points(g,m);
 }
-function tick2(t){
-  cx.clearRect(0,0,W,H);
-  // links
-  for(let i=1;i<nodes.length;i++){
-    const n=nodes[i],h=nodes[0];
-    const dx=n.x-mouse.x,dy=n.y-mouse.y,md=Math.hypot(dx,dy);
-    const near=Math.max(0,1-md/(260*devicePixelRatio));
-    const g=cx.createLinearGradient(h.x,h.y,n.x,n.y);
-    const a=.10+near*.4+0.05*Math.sin(t/900+n.ph);
-    g.addColorStop(0,`rgba(232,163,61,${a})`);g.addColorStop(1,`rgba(232,163,61,${a*.35})`);
-    cx.strokeStyle=g;cx.lineWidth=(1+near*1.2)*devicePixelRatio;
-    // cable sag
-    cx.beginPath();cx.moveTo(h.x,h.y);
-    const mx=(h.x+n.x)/2,my=(h.y+n.y)/2+18*devicePixelRatio;
-    cx.quadraticCurveTo(mx,my,n.x,n.y);cx.stroke();
-    n._mx=mx;n._my=my;
-  }
-  // spawn pulses
-  if(Math.random()<.06){const i=1+Math.floor(Math.random()*(nodes.length-1));pulses.push({i,p:0,sp:.004+Math.random()*.007});}
-  pulses=pulses.filter(p=>p.p<=1);
-  for(const p of pulses){
-    const n=nodes[p.i],h=nodes[0];
-    const q=p.p,qp=1-q;
-    const x=qp*qp*h.x+2*qp*q*n._mx+q*q*n.x, y=qp*qp*h.y+2*qp*q*n._my+q*q*n.y;
-    cx.beginPath();cx.arc(x,y,2.1*devicePixelRatio,0,7);cx.fillStyle=`rgba(245,197,107,${.85*(1-q*.4)})`;
-    cx.shadowColor='rgba(232,163,61,.9)';cx.shadowBlur=12*devicePixelRatio;cx.fill();cx.shadowBlur=0;
-    p.p+=p.sp;
-  }
-  // nodes
-  for(let i=0;i<nodes.length;i++){const n=nodes[i];
-    const pul=n.hub?(1.5+Math.sin(t/500)*.5):(0.9+Math.sin(t/700+n.ph*2)*.35);
-    cx.beginPath();cx.arc(n.x,n.y,n.r*pul*devicePixelRatio,0,7);
-    cx.fillStyle=n.hub?'#f5c56b':'#c97e1e';
-    cx.shadowColor='rgba(232,163,61,.8)';cx.shadowBlur=n.hub?26*devicePixelRatio:9*devicePixelRatio;
-    cx.fill();cx.shadowBlur=0;
-    if(n.hub){cx.beginPath();cx.arc(n.x,n.y,15*devicePixelRatio,0,7);cx.strokeStyle='rgba(245,197,107,.35)';cx.lineWidth=devicePixelRatio;cx.stroke();}
-  }
-  requestAnimationFrame(tick2);
+const far=stars(1600,70,.09,.7),near=stars(500,40,.16,.9);
+scene.add(far,near);
+
+/* gold dust */
+const dustGeo=new THREE.BufferGeometry(),N=260,dp=new Float32Array(N*3),ds=new Float32Array(N);
+for(let i=0;i<N;i++){dp[i*3]=(Math.random()-.5)*26;dp[i*3+1]=(Math.random()-.5)*16;dp[i*3+2]=(Math.random()-.5)*14;ds[i]=Math.random()*6.28;}
+dustGeo.setAttribute('position',new THREE.BufferAttribute(dp,3));
+const dust=new THREE.Points(dustGeo,new THREE.PointsMaterial({color:0xf7d08a,size:.055,transparent:true,opacity:.85,depthWrite:false}));
+scene.add(dust);
+
+/* holo ring floor */
+const ringGrp=new THREE.Group();
+for(let i=0;i<4;i++){
+  const r=2.4+i*.85,pts=[];for(let a=0;a<=64;a++)pts.push(new THREE.Vector3(Math.cos(a/64*6.283)*r,0,Math.sin(a/64*6.283)*r));
+  const line=new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts),
+    new THREE.LineBasicMaterial({color:0xe8a33d,transparent:true,opacity:.10-i*.018}));
+  ringGrp.add(line);
 }
-size();addEventListener('resize',size);
-addEventListener('mousemove',e=>{const r=cv.getBoundingClientRect();mouse.x=(e.clientX-r.left)*devicePixelRatio;mouse.y=(e.clientY-r.top)*devicePixelRatio;});
-requestAnimationFrame(tick2);
+ringGrp.position.y=-2.9; scene.add(ringGrp);
+
+/* ---- THE OPERATOR: photo slab + frame + glow ---- */
+const heroGrp=new THREE.Group();
+const tex=new THREE.TextureLoader().load('img/ciro-hero.webp'); tex.colorSpace=THREE.SRGBColorSpace;
+const PW=3.05,PH=3.82;
+const photo=new THREE.Mesh(new THREE.PlaneGeometry(PW,PH),new THREE.MeshBasicMaterial({map:tex}));
+heroGrp.add(photo);
+/* gold frame */
+const frame=new THREE.Mesh(new THREE.PlaneGeometry(PW+.22,PH+.22),
+  new THREE.MeshBasicMaterial({color:0xe8a33d,transparent:true,opacity:.9}));
+frame.position.z=-.03; heroGrp.add(frame);
+const halo=new THREE.Mesh(new THREE.PlaneGeometry(PW+1.5,PH+1.5),
+  new THREE.MeshBasicMaterial({color:0xe8a33d,transparent:true,opacity:.10,blending:THREE.AdditiveBlending,depthWrite:false}));
+halo.position.z=-.35; heroGrp.add(halo);
+/* back plate for depth */
+const back=new THREE.Mesh(new THREE.BoxGeometry(PW+.16,PH+.16,.14),
+  new THREE.MeshStandardMaterial({color:0x0d0f16,metalness:.7,roughness:.35}));
+back.position.z=-.1; heroGrp.add(back);
+/* nameplate */
+const npCanvas=document.createElement('canvas'); npCanvas.width=1024; npCanvas.height=160;
+const nc=npCanvas.getContext('2d');
+nc.fillStyle='rgba(10,11,16,.9)'; nc.beginPath(); nc.roundRect(0,0,1024,160,26); nc.fill();
+nc.strokeStyle='#e8a33d'; nc.lineWidth=5; nc.beginPath(); nc.roundRect(3,3,1018,154,26); nc.stroke();
+nc.font='700 62px "Space Grotesk", sans-serif'; nc.fillStyle='#f7d08a'; nc.textAlign='center';
+nc.fillText('CIRO GAMINO — THE OPERATOR',512,102);
+const npTex=new THREE.CanvasTexture(npCanvas); npTex.colorSpace=THREE.SRGBColorSpace;
+const plate=new THREE.Mesh(new THREE.PlaneGeometry(2.9,.45),new THREE.MeshBasicMaterial({map:npTex,transparent:true}));
+plate.position.y=-PH/2-.55; heroGrp.add(plate);
+
+/* orbiting platform chips — THE SWITCHBOARD */
+const chipFiles=['g-yt','g-ig','g-x','g-tt','g-fb','g-li'];
+const chips=chipFiles.map((f,i)=>{
+  const t=new THREE.TextureLoader().load(`img/${f}.png`); t.colorSpace=THREE.SRGBColorSpace;
+  const m=new THREE.Mesh(new THREE.PlaneGeometry(.62,.62),
+    new THREE.MeshBasicMaterial({map:t,transparent:true,side:THREE.DoubleSide}));
+  m.userData.a=i/chipFiles.length*6.283; heroGrp.add(m); return m;
+});
+
+scene.add(heroGrp);
+const isMobile=matchMedia('(max-width:960px)').matches;
+heroGrp.position.set(isMobile?0:2.35,.1,0);
+heroGrp.scale.setScalar(isMobile?.72:1);
+
+/* interaction */
+let mx=0,my=0,dragX=0,dragVX=0,down=false,lastX=0,scrollY=0;
+addEventListener('mousemove',e=>{mx=(e.clientX/innerWidth-.5)*2;my=(e.clientY/innerHeight-.5)*2;});
+addEventListener('pointerdown',e=>{if(e.target.closest('a,button'))return;down=true;lastX=e.clientX;});
+addEventListener('pointermove',e=>{if(!down)return;dragVX=(e.clientX-lastX)*.004;lastX=e.clientX;dragX+=dragVX;});
+addEventListener('pointerup',()=>down=false);
+addEventListener('scroll',()=>scrollY=window.scrollY,{passive:true});
+addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);});
+
+const clock=new THREE.Clock();
+(function loop(){
+  requestAnimationFrame(loop);
+  const t=clock.getElapsedTime();
+  /* gentle auto-rotate + drag inertia */
+  dragVX*= .94; dragX+=dragVX;
+  const targetY=Math.sin(t*.16)*.12+mx*.16+dragX;
+  heroGrp.rotation.y+=(targetY-heroGrp.rotation.y)*.06;
+  heroGrp.rotation.x+=((-my*.08+Math.sin(t*.4)*.02)-heroGrp.rotation.x)*.06;
+  heroGrp.position.y=.1+Math.sin(t*.9)*.12;
+  /* chips orbit + billboards */
+  chips.forEach((c,i)=>{const a=c.userData.a+t*.28;
+    const rx=PW/1.12+Math.sin(t*.5+i)*.14, ry=PH/1.28+Math.cos(t*.6+i*2)*.22;
+    c.position.set(Math.cos(a)*rx,Math.sin(a)*ry,Math.sin(a+1.2)*.8+.62);
+    c.rotation.y=Math.sin(t*.8+i)*.4;
+    const s=1+Math.sin(t*2+i)*.06; c.scale.setScalar(s);});
+  far.rotation.y=t*.008; near.rotation.y=-t*.012;
+  dust.rotation.y=t*.03;
+  ringGrp.rotation.y=t*.05;
+  const sp=scrollY/innerHeight;
+  camera.position.z=8.5-sp*1.6;
+  camera.position.x+=(mx*.55-camera.position.x)*.05;
+  camera.position.y+=(-my*.4+sp*1.2-camera.position.y)*.05;
+  camera.lookAt(heroGrp.position.x*.5,0,0);
+  renderer.render(scene,camera);
+})();
 </script>
 </body>
 </html>
