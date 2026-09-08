@@ -13,7 +13,7 @@
 :root{
   --bg:#05060a; --panel:rgba(16,18,28,.72); --line:rgba(255,255,255,.09);
   --ink:#f2eee2; --dim:#9aa0b4; --faint:#5b6070;
-  --gold:#e8a33d; --gold2:#f7d08a; --hot:#ffd58a;
+  --gold:#e8a33d; --gold2:#f7d08a; --hot:#ffd58a; --ok:#6fc46a;
   --mono:'JetBrains Mono',ui-monospace,monospace; --sans:'Space Grotesk',sans-serif; --black:'Archivo Black',sans-serif;
 }
 *{margin:0;padding:0;box-sizing:border-box}
@@ -146,6 +146,22 @@ h2 em{font-style:normal;color:var(--gold)}
 .p-live{color:var(--ok);background:rgba(111,196,106,.09);border:1px solid rgba(111,196,106,.32)}
 .p-next{color:var(--gold2);background:rgba(232,163,61,.08);border:1px solid rgba(232,163,61,.3)}
 
+/* receipts ledger */
+.ledger{border:1px solid var(--line);border-radius:18px;overflow:hidden;background:rgba(10,11,17,.35)}
+.lrow{display:grid;grid-template-columns:96px 1fr auto;gap:8px 22px;align-items:center;padding:16px 24px;border-top:1px solid var(--line);transition:.15s}
+.lrow:first-child{border-top:0}
+.lrow:hover{background:rgba(232,163,61,.06)}
+.lrow .d{font-family:var(--mono);font-size:11px;color:var(--gold);letter-spacing:2px}
+.lrow .w{font-size:15.5px;font-weight:600}
+.lrow .r{grid-column:2;font-family:var(--mono);font-size:10px;color:var(--dim);letter-spacing:1px;margin-top:-6px}
+.lrow .ok{font-family:var(--mono);font-size:8.5px;letter-spacing:2px;color:var(--ok);border:1px solid rgba(111,196,106,.3);padding:5px 11px;border-radius:99px;white-space:nowrap}
+/* hire panel */
+.hire-panel{display:flex;align-items:center;gap:44px;padding:56px;border-radius:24px;border:1px solid rgba(232,163,61,.42);
+ background:linear-gradient(120deg,rgba(232,163,61,.12),var(--panel) 55%);backdrop-filter:blur(14px)}
+.hire-panel h2{font-size:clamp(26px,3.4vw,42px)}
+.hire-panel .hero-ctas{margin-top:0;flex-shrink:0}
+@media(max-width:960px){.hire-panel{flex-direction:column;align-items:flex-start;padding:36px}}
+
 .mani{position:relative;z-index:5;text-align:center;padding:150px 0}
 .mani p{font-family:var(--black);font-size:clamp(30px,5vw,64px);line-height:1.1;text-transform:uppercase}
 .mani .g{color:var(--gold)}
@@ -169,7 +185,7 @@ footer{position:relative;z-index:5;border-top:1px solid var(--line);padding:40px
 
 <nav><div class="wrap nav-in">
   <span class="mark">CG</span><span class="ver">V3</span>
-  <div class="nav-links"><a href="#human">THE HUMAN</a><a href="#fleet">FLEET</a><a href="#show">SHOW</a><a href="#arenas">ARENAS</a><a href="#feed">FEED</a></div>
+  <div class="nav-links"><a href="#human">THE OPERATOR</a><a href="#fleet">THE FLEET</a><a href="#show">THE SHOW</a><a href="#empire">THE EMPIRE</a><a href="#receipts">RECEIPTS</a><a href="#feed">FOLLOW ME</a></div>
   <a class="nav-cta" href="https://zcode.cirogamino.com" target="_blank" rel="noopener">OPEN THE CONSOLE →</a>
 </div></nav>
 
@@ -183,7 +199,7 @@ footer{position:relative;z-index:5;border-top:1px solid var(--line);padding:40px
     <div class="hero-ctas">
       <a class="btn btn-gold" href="https://www.youtube.com/@cirogamino" target="_blank" rel="noopener">▶ WATCH THE JOURNEY</a>
       <a class="btn btn-ghost" href="https://artificialovertime.com" target="_blank" rel="noopener">THE SHOW</a>
-      <a class="btn btn-ghost" href="#human">MEET THE HUMAN</a>
+      <a class="btn btn-ghost" href="#human">MEET THE OPERATOR</a>
     </div>
     <div class="hero-stats">
       <div class="hstat"><div class="n">11</div><div class="l">AI AGENTS ON PAYROLL</div></div>
@@ -202,14 +218,14 @@ footer{position:relative;z-index:5;border-top:1px solid var(--line);padding:40px
 
 <section id="human"><div class="wrap">
   <div class="sec-head rv">
-    <div class="sec-no">01 — THE HUMAN</div>
+    <div class="sec-no">01 — THE OPERATOR</div>
     <h2>The only face <em>the fleet answers to</em></h2>
     <p class="sec-sub">No avatar. No render. This is the actual operator — Brookfield, WI by way of San Diego.
     The fleet ships it; he signs off.</p>
   </div>
   <div class="human-grid">
     <div class="pcard rv" data-tilt><img src="img/ciro-med-card1.webp?v=4" alt="Ciro laughing at a Mediterranean sunset, jacket over shoulders"><div class="cap"><b>The Mediterranean cut</b><span>TAN · SUNSET · JACKET, NO SHIRT — HIS PICK</span></div></div>
-    <div class="pcard rv" data-tilt><img src="img/ciro-med-card2.webp?v=5" alt="Ciro laughing in profile at a Mediterranean cliffside terrace at dusk, pointing at the coastline"><div class="cap"><b>The other angle</b><span>CLIFFSIDE RAILING · DUSK · SAME NIGHT</span></div></div>
+    <div class="pcard rv" data-tilt><img src="img/ciro-med-card2.webp?v=6" alt="Ciro Gamino in profile — real photo, warm dusk grade"><div class="cap"><b>The profile</b><span>REAL PHOTO · ZERO AI · HIS ACTUAL FACE</span></div></div>
   </div>
   <p class="human-side rv">By day the fleet runs volleyball nights, real-estate pipelines, a mockumentary office and a
   social empire. By night it runs itself — <b>that's the point</b>. I built a company where twenty of the
@@ -248,22 +264,47 @@ footer{position:relative;z-index:5;border-top:1px solid var(--line);padding:40px
   </div>
 </div></section>
 
-<section id="arenas"><div class="wrap">
+<section id="empire"><div class="wrap">
   <div class="sec-head rv">
-    <div class="sec-no">04 — THE ARENAS</div>
+    <div class="sec-no">04 — THE EMPIRE</div>
     <h2>One life<em>, many arenas.</em></h2>
-    <p class="sec-sub">Four domains, all live, all measured. The empire is small but the light bill is real.</p>
+    <p class="sec-sub">Six domains, all live, all measured. The empire is small but the light bill is real.</p>
   </div>
   <div class="arena-grid" id="arena-grid"></div>
 </div></section>
 
+<section id="receipts"><div class="wrap">
+  <div class="sec-head rv">
+    <div class="sec-no">05 — THE RECEIPTS</div>
+    <h2>Counts <em>or it didn't happen.</em></h2>
+    <p class="sec-sub">Every claim on this site has a receipt. Wins are dated, verified and posted as they land —
+    the fleet logs them, the human signs off.</p>
+  </div>
+  <div class="ledger rv" id="ledger"></div>
+</div></section>
+
 <section id="feed" class="feed"><div class="wrap">
   <div class="sec-head rv">
-    <div class="sec-no">05 — THE FEED</div>
+    <div class="sec-no">06 — FOLLOW ME</div>
     <h2>Follow the human<em>, not just the machines</em></h2>
     <p class="sec-sub">Verified 09-04-26. Auto-publish wiring is next — n8n carries every video to every platform with a proof trail.</p>
   </div>
   <div class="feed-grid" id="feed-grid"></div>
+</div></section>
+
+<section id="hire"><div class="wrap">
+  <div class="hire-panel rv">
+    <div>
+      <div class="sec-no">THE OFFER</div>
+      <h2>Hire <em>the fleet.</em></h2>
+      <p class="sec-sub" style="max-width:520px">The same crew that runs this empire runs other businesses —
+      AI receptionists that answer in milliseconds, content engines that ship daily, 25 workflows ready to bolt on.
+      One human guarantee behind every machine.</p>
+    </div>
+    <div class="hero-ctas">
+      <a class="btn btn-gold" href="https://cirosai.com" target="_blank" rel="noopener">PUT MY FLEET TO WORK →</a>
+    </div>
+  </div>
 </div></section>
 
 <section class="mani"><div class="wrap rv">
@@ -274,7 +315,7 @@ footer{position:relative;z-index:5;border-top:1px solid var(--line);padding:40px
 <footer><div class="wrap foot">
   <span>CIROGAMINO.COM <b style="color:var(--gold)">V3</b> · THE OPERATOR</span>
   <span>REAL PHOTOS · REAL FLEET · REAL RECEIPTS</span>
-  <span>WEBGL + DOM · BUILT BY <a href="https://zcode.cirogamino.com" target="_blank" rel="noopener">ZCODE Z1</a> · 09-04-26</span>
+  <span>WEBGL + DOM · BUILT BY <a href="https://zcode.cirogamino.com" target="_blank" rel="noopener">ZCODE Z1</a> · 09-08-26</span>
   <a href="https://github.com/cirogamino/cirogamino-v3" target="_blank" rel="noopener">SOURCE</a>
   <span class="right">MAY THE COOLEST SITE WIN.</span>
 </div></footer>
@@ -295,10 +336,21 @@ const FLEET=[
  {tag:"Q1",n:"LM Studio",role:"THE LOCAL · RUNS OFF-GRID",h:""},
 ];
 const ARENAS=[
- {no:"ARENA 01",n:"The Personal Brand",d:"This site — the hub where every wire lands.",u:"cirogamino.com"},
- {no:"ARENA 02",n:"The Show",d:"Artificial Overtime — the mockumentary the fleet accidentally became.",u:"artificialovertime.com"},
- {no:"ARENA 03",n:"The Company",d:"CiroSai — where the fleet goes to work for other businesses.",u:"cirosai.com"},
- {no:"ARENA 04",n:"The Real Estate",d:"Gamino Real Estate — houses, haulers and hard hats.",u:"gaminorealestate.com"},
+ {no:"ARENA 01",n:"The Personal Brand",d:"This site — the hub where every wire lands.",u:"cirogamino.com",s:"GA4 LIVE"},
+ {no:"ARENA 02",n:"The Show",d:"Artificial Overtime — the mockumentary the fleet accidentally became.",u:"artificialovertime.com",s:"GA4 LIVE"},
+ {no:"ARENA 03",n:"The Company",d:"CiroSai — where the fleet goes to work for other businesses.",u:"cirosai.com",s:"GA4 LIVE"},
+ {no:"ARENA 04",n:"The Real Estate",d:"Gamino Real Estate — houses, haulers and hard hats.",u:"gaminorealestate.com",s:"GA4 LIVE"},
+ {no:"ARENA 05",n:"The Volleyball Empire",d:"Squirrley Aceholes — league nights, chaos, cameras everywhere.",u:"youtube.com/@SquirrleyAceholes",s:"LIVE"},
+ {no:"ARENA 06",n:"The Vault",d:"One lawbook, every machine — the fleet's single source of truth.",u:"github.com/cirogamino/ciro-os",s:"PRIVATE"},
+];
+const RECEIPTS=[
+ {d:"08-29",w:"S01E01 “Vault Wars” trailer",r:"Shipped in 7 minutes · $0 outside spend"},
+ {d:"09-01",w:"Fleet payroll switched on",r:"11 agents · one lawbook · CiroOS vault live"},
+ {d:"09-02",w:"Artificial Overtime promo suite",r:"3 promos rendered + published overnight"},
+ {d:"09-03",w:"First volleyball video graded by Ciro",r:"Scored 90 · league HQ dashboard live"},
+ {d:"09-04",w:"4 sites GA4-verified + channel wave",r:"Squirrley Aceholes LIVE · branding sets shipped"},
+ {d:"09-05",w:"Video dump factory v1",r:"Ingest → watchdog → telemetry · 11 mini-projects"},
+ {d:"09-07",w:"Ciro identity engine won",r:"Real-face team pics approved · local swaps retired"},
 ];
 const FEED=[
  {g:"YT",n:"YouTube · Main",h:"@cirogamino · 1.66K subs · 29 videos",u:"https://www.youtube.com/@cirogamino",p:"p-live",pv:"LIVE"},
@@ -317,12 +369,14 @@ document.getElementById('fleet-grid').innerHTML=FLEET.map(f=>`
 document.getElementById('arena-grid').innerHTML=ARENAS.map(a=>`
  <a class="arena glass rv" href="https://${a.u}" target="_blank" rel="noopener">
    <div class="no">${a.no}</div><h3>${a.n}</h3><div class="d">${a.d}</div>
-   <div class="meta"><span class="url">${a.u}</span><span class="ga">● GA4 LIVE</span></div></a>`).join('');
+   <div class="meta"><span class="url">${a.u}</span><span class="ga">● ${a.s}</span></div></a>`).join('');
+document.getElementById('ledger').innerHTML=RECEIPTS.map(r=>`
+ <div class="lrow"><span class="d">${r.d}</span><span class="w">${r.w}</span><span class="ok">✔ VERIFIED</span><span class="r">${r.r}</span></div>`).join('');
 document.getElementById('feed-grid').innerHTML=FEED.map(f=>`
  <a class="plat glass rv" href="${f.u}" target="_blank" rel="noopener">
    <div class="row1"><span class="g">${f.g}</span><b>${f.n}</b></div>
    <span class="h">${f.h}</span><span class="pill ${f.p}">${f.pv}</span></a>`).join('');
-const TICK=`<b>REAL FACE</b> · REAL FLEET<span class="sep">✦</span>GA4 VERIFIED ON ALL 4 SITES<span class="sep">✦</span>3 YOUTUBE CHANNELS LIVE<span class="sep">✦</span><b>1.66K SUBS</b> AND CLIMBING<span class="sep">✦</span>EPISODE 1 IN PRODUCTION<span class="sep">✦</span>N8N AUTO-PUBLISH WIRING NEXT<span class="sep">✦</span>11 AGENTS ON PAYROLL — <b>1 HUMAN</b><span class="sep">✦</span>`;
+const TICK=`<b>REAL FACE</b> · REAL FLEET<span class="sep">✦</span>GA4 VERIFIED ON ALL 4 SITES<span class="sep">✦</span>3 YOUTUBE CHANNELS LIVE<span class="sep">✦</span><b>1.66K SUBS</b> AND CLIMBING<span class="sep">✦</span>EPISODE 1 IN PRODUCTION<span class="sep">✦</span><b>RECEIPTS POSTED — COUNTS OR IT DIDN'T HAPPEN</b><span class="sep">✦</span>11 AGENTS ON PAYROLL — <b>1 HUMAN</b><span class="sep">✦</span>HIRE THE FLEET — <b>CIROSAI.COM</b><span class="sep">✦</span>`;
 document.getElementById('ticker').innerHTML=TICK+TICK;
 
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
