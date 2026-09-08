@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://cirogamino.github.io/cirogamino-v3/sitemap.xml

@@ -3,12 +3,47 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ciro Gamino — The Operator | One Human. Full Fleet.</title>
-<meta name="description" content="Ciro Gamino runs his life through a fleet of AI agents. Real human, real fleet, real receipts. v3 — built in WebGL by ZCode.">
+<title>Ciro Gamino — AI Fleet Operator | 11 AI Agents. 1 Human.</title>
+<meta name="description" content="Ciro Gamino runs his life and businesses through a fleet of 11 AI agents — AI receptionists, content engines and 25 bolt-on automation workflows. Real human, real fleet, real receipts. Hire the fleet at CiroSai.com.">
+<meta name="author" content="Ciro Gamino">
+<meta name="theme-color" content="#05060a">
+<meta name="color-scheme" content="dark">
+<link rel="canonical" href="https://cirogamino.github.io/cirogamino-v3/">
+<!-- Open Graph: rich share cards on every platform -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Ciro Gamino — The Operator">
+<meta property="og:title" content="Ciro Gamino — One Human. Full Fleet.">
+<meta property="og:description" content="He employs 11 AI agents. Receptionists, editors, builders, couriers — every wire lands on one human. Counts or it didn't happen.">
+<meta property="og:url" content="https://cirogamino.github.io/cirogamino-v3/">
+<meta property="og:image" content="https://cirogamino.github.io/cirogamino-v3/img/og-card.jpg?v=5">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_US">
+<!-- X / Twitter card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Ciro Gamino — One Human. Full Fleet.">
+<meta name="twitter:description" content="11 AI agents on payroll. 4 sites live. 1 human. Hire the fleet → cirosai.com">
+<meta name="twitter:image" content="https://cirogamino.github.io/cirogamino-v3/img/og-card.jpg?v=5">
+<!-- Favicon: gold CG mark, no file request -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2305060a'/%3E%3Ctext x='32' y='43' font-family='Arial Black,Arial' font-size='26' font-weight='900' fill='%23e8a33d' text-anchor='middle'%3ECG%3C/text%3E%3C/svg%3E">
+<!-- Structured data: Person + WebSite for knowledge-panel / rich results -->
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[
+ {"@type":"Person","name":"Ciro Gamino","url":"https://cirogamino.github.io/cirogamino-v3/",
+  "jobTitle":"Founder","worksFor":{"@type":"Organization","name":"CiroSai","url":"https://cirosai.com"},
+  "homeLocation":{"@type":"Place","name":"Brookfield, Wisconsin"},
+  "description":"Operator of an 11-agent AI fleet. Runs media, real estate and automation businesses where every employee but one is AI.",
+  "sameAs":["https://www.youtube.com/@cirogamino","https://www.youtube.com/@SquirrleyAceholes","https://www.youtube.com/@artificialovertime","https://www.instagram.com/cirogamino/","https://www.tiktok.com/@gettinsquirrley","https://x.com/cirogamino","https://www.facebook.com/ciro.gamino/","https://www.linkedin.com/in/cirogamino"]},
+ {"@type":"WebSite","name":"Ciro Gamino — The Operator","url":"https://cirogamino.github.io/cirogamino-v3/","inLanguage":"en-US"}]}
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"}}</script>
+<link rel="preload" as="image" href="img/ciro-med-scene.webp?v=4">
+<!-- GA4 — same property as cirogamino.com, now measuring this page + every CTA click -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZBX47TJYRD"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-ZBX47TJYRD');</script>
 <style>
 :root{
   --bg:#05060a; --panel:rgba(16,18,28,.72); --line:rgba(255,255,255,.09);
@@ -23,6 +58,9 @@ body{background:var(--bg);color:var(--ink);font-family:var(--sans);overflow-x:hi
 ::-webkit-scrollbar{width:10px}::-webkit-scrollbar-track{background:#07080c}
 ::-webkit-scrollbar-thumb{background:#262b3d;border-radius:5px}
 a{color:inherit;text-decoration:none}
+a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:6px}
+.skip{position:fixed;left:-999px;top:10px;z-index:99;background:var(--gold);color:#000;padding:10px 18px;border-radius:8px;font-family:var(--mono);font-size:12px}
+.skip:focus{left:10px}
 .wrap{max-width:1220px;margin:0 auto;padding:0 30px;position:relative;z-index:5}
 
 #space{position:fixed;inset:0;z-index:0;display:block}
@@ -160,7 +198,18 @@ h2 em{font-style:normal;color:var(--gold)}
  background:linear-gradient(120deg,rgba(232,163,61,.12),var(--panel) 55%);backdrop-filter:blur(14px)}
 .hire-panel h2{font-size:clamp(26px,3.4vw,42px)}
 .hire-panel .hero-ctas{margin-top:0;flex-shrink:0}
+.hire-proof{display:flex;gap:26px;margin-top:26px;flex-wrap:wrap}
+.hire-proof .hp{font-family:var(--mono);font-size:9.5px;letter-spacing:2px;color:var(--dim)}
+.hire-proof .hp b{display:block;font-family:var(--black);font-size:21px;letter-spacing:0;color:var(--gold2);margin-bottom:3px}
+.hire-list{list-style:none;margin-top:20px;display:grid;gap:9px}
+.hire-list li{color:var(--dim);font-size:14.5px;padding-left:24px;position:relative;line-height:1.5}
+.hire-list li::before{content:"⌁";position:absolute;left:0;color:var(--gold)}
 @media(max-width:960px){.hire-panel{flex-direction:column;align-items:flex-start;padding:36px}}
+
+/* sticky mobile hire bar — money button always in thumb reach */
+.mobile-cta{display:none;position:fixed;left:0;right:0;bottom:0;z-index:80;gap:10px;padding:10px 14px calc(10px + env(safe-area-inset-bottom));
+ background:rgba(5,6,10,.92);backdrop-filter:blur(12px);border-top:1px solid rgba(232,163,61,.3)}
+.mobile-cta .btn{flex:1;justify-content:center;padding:13px 10px;font-size:10px}
 
 .mani{position:relative;z-index:5;text-align:center;padding:150px 0}
 .mani p{font-family:var(--black);font-size:clamp(30px,5vw,64px);line-height:1.1;text-transform:uppercase}
@@ -172,24 +221,38 @@ footer{position:relative;z-index:5;border-top:1px solid var(--line);padding:40px
 .foot{display:flex;flex-wrap:wrap;gap:18px;align-items:center;font-family:var(--mono);font-size:10px;color:var(--faint);letter-spacing:1.5px}
 .foot a{color:var(--dim)} .foot a:hover{color:var(--gold2)}
 .foot .right{margin-left:auto}
-@media(max-width:960px){.hero-grid{grid-template-columns:1fr}.show-panel{grid-template-columns:1fr}.nav-links{display:none}.human-grid{grid-template-columns:1fr}}
+
+@media(max-width:960px){
+ .hero-grid{grid-template-columns:1fr}.show-panel{grid-template-columns:1fr}.nav-links{display:none}.human-grid{grid-template-columns:1fr}
+ .mobile-cta{display:flex}
+ footer{padding-bottom:110px}
+}
 @media(max-width:640px){.wrap{padding:0 20px}.hero{padding-top:80px}}
+/* Accessibility: honor reduced-motion — kill parallax, ticker, pulses */
+@media(prefers-reduced-motion:reduce){
+ html{scroll-behavior:auto}
+ .ticker-in{animation:none}
+ .rec i{animation:none}
+ .rv{opacity:1;transform:none;transition:none}
+ *{transition-duration:.01ms!important;animation-duration:.01ms!important;animation-iteration-count:1!important}
+}
 </style>
 </head>
 <body>
 
-<canvas id="space"></canvas>
-<img id="glow-fallback" src="img/ciro-med-scene.webp?v=4" alt="Ciro Gamino">
-<div class="vignette"></div>
-<div class="grain"></div>
+<a class="skip" href="#main">SKIP TO CONTENT</a>
+<canvas id="space" aria-hidden="true"></canvas>
+<img id="glow-fallback" src="img/med-backdrop.webp?v=3" alt="" aria-hidden="true">
+<div class="vignette" aria-hidden="true"></div>
+<div class="grain" aria-hidden="true"></div>
 
-<nav><div class="wrap nav-in">
+<nav aria-label="Main"><div class="wrap nav-in">
   <span class="mark">CG</span><span class="ver">V3</span>
   <div class="nav-links"><a href="#human">THE OPERATOR</a><a href="#fleet">THE FLEET</a><a href="#show">THE SHOW</a><a href="#empire">THE EMPIRE</a><a href="#receipts">RECEIPTS</a><a href="#feed">FOLLOW ME</a></div>
-  <a class="nav-cta" href="https://zcode.cirogamino.com" target="_blank" rel="noopener">OPEN THE CONSOLE →</a>
+  <a class="nav-cta" href="#hire" data-cta="nav-hire">HIRE THE FLEET →</a>
 </div></nav>
 
-<header class="hero"><div class="wrap hero-grid">
+<header class="hero" id="main"><div class="wrap hero-grid">
   <div>
     <div class="kicker">CIRO GAMINO — THE OPERATOR · EVERY WIRE LANDS HERE</div>
     <h1>ONE HUMAN<span style="color:var(--gold)">.</span><br><span class="stroke">FULL FLEET</span><span style="color:var(--gold)">.</span></h1>
@@ -197,9 +260,9 @@ footer{position:relative;z-index:5;border-top:1px solid var(--line);padding:40px
     builders, editors, couriers, receptionists — and every platform, site and machine on this page
     plugs into <b>one human: me</b>. Drag the portrait. It's all live.</p>
     <div class="hero-ctas">
-      <a class="btn btn-gold" href="https://www.youtube.com/@cirogamino" target="_blank" rel="noopener">▶ WATCH THE JOURNEY</a>
-      <a class="btn btn-ghost" href="https://artificialovertime.com" target="_blank" rel="noopener">THE SHOW</a>
-      <a class="btn btn-ghost" href="#human">MEET THE OPERATOR</a>
+      <a class="btn btn-gold" href="https://cirosai.com" target="_blank" rel="noopener" data-cta="hero-hire">HIRE THE FLEET →</a>
+      <a class="btn btn-ghost" href="https://www.youtube.com/@cirogamino?sub_confirmation=1" target="_blank" rel="noopener" data-cta="hero-youtube">▶ WATCH THE JOURNEY</a>
+      <a class="btn btn-ghost" href="#human" data-cta="hero-operator">MEET THE OPERATOR</a>
     </div>
     <div class="hero-stats">
       <div class="hstat"><div class="n">11</div><div class="l">AI AGENTS ON PAYROLL</div></div>
@@ -211,10 +274,10 @@ footer{position:relative;z-index:5;border-top:1px solid var(--line);padding:40px
   </div>
   <div></div>
 </div>
-  <div class="drag-hint"><i></i>DRAG TO ORBIT · SCROLL TO BOARD</div>
+  <div class="drag-hint" aria-hidden="true"><i></i>DRAG TO ORBIT · SCROLL TO BOARD</div>
 </header>
 
-<div class="ticker"><div class="ticker-in" id="ticker"></div></div>
+<div class="ticker" aria-hidden="true"><div class="ticker-in"><b>REAL FACE</b> · REAL FLEET<span class="sep">✦</span>GA4 VERIFIED ON ALL 4 SITES<span class="sep">✦</span>3 YOUTUBE CHANNELS LIVE<span class="sep">✦</span><b>1.66K SUBS</b> AND CLIMBING<span class="sep">✦</span>EPISODE 1 IN PRODUCTION<span class="sep">✦</span><b>RECEIPTS POSTED — COUNTS OR IT DIDN'T HAPPEN</b><span class="sep">✦</span>11 AGENTS ON PAYROLL — <b>1 HUMAN</b><span class="sep">✦</span>HIRE THE FLEET — <b>CIROSAI.COM</b><span class="sep">✦</span><b>REAL FACE</b> · REAL FLEET<span class="sep">✦</span>GA4 VERIFIED ON ALL 4 SITES<span class="sep">✦</span>3 YOUTUBE CHANNELS LIVE<span class="sep">✦</span><b>1.66K SUBS</b> AND CLIMBING<span class="sep">✦</span>EPISODE 1 IN PRODUCTION<span class="sep">✦</span><b>RECEIPTS POSTED — COUNTS OR IT DIDN'T HAPPEN</b><span class="sep">✦</span>11 AGENTS ON PAYROLL — <b>1 HUMAN</b><span class="sep">✦</span>HIRE THE FLEET — <b>CIROSAI.COM</b><span class="sep">✦</span></div></div>
 
 <section id="human"><div class="wrap">
   <div class="sec-head rv">
@@ -224,8 +287,8 @@ footer{position:relative;z-index:5;border-top:1px solid var(--line);padding:40px
     The fleet ships it; he signs off.</p>
   </div>
   <div class="human-grid">
-    <div class="pcard rv" data-tilt><img src="img/ciro-med-card1.webp?v=4" alt="Ciro laughing at a Mediterranean sunset, jacket over shoulders"><div class="cap"><b>The Mediterranean cut</b><span>TAN · SUNSET · JACKET, NO SHIRT — HIS PICK</span></div></div>
-    <div class="pcard rv" data-tilt><img src="img/ciro-med-card2.webp?v=6" alt="Ciro Gamino in profile — real photo, warm dusk grade"><div class="cap"><b>The profile</b><span>REAL PHOTO · ZERO AI · HIS ACTUAL FACE</span></div></div>
+    <div class="pcard rv" data-tilt><img src="img/ciro-med-card1.webp?v=4" alt="Ciro Gamino at a Mediterranean sunset party, laughing, jacket over shoulders" width="900" height="1125" loading="lazy" decoding="async"><div class="cap"><b>The Mediterranean cut</b><span>SUNSET · GOLDEN HOUR · THE OPERATOR OFF DUTY</span></div></div>
+    <div class="pcard rv" data-tilt><img src="img/ciro-med-card2.webp?v=6" alt="Ciro Gamino, three-quarter profile portrait" width="900" height="1125" loading="lazy" decoding="async"><div class="cap"><b>The profile</b><span>THE OPERATOR · PORTRAIT</span></div></div>
   </div>
   <p class="human-side rv">By day the fleet runs volleyball nights, real-estate pipelines, a mockumentary office and a
   social empire. By night it runs itself — <b>that's the point</b>. I built a company where twenty of the
@@ -239,7 +302,19 @@ footer{position:relative;z-index:5;border-top:1px solid var(--line);padding:40px
     <h2>Eleven agents<em>. One switchboard.</em></h2>
     <p class="sec-sub">Every agent holds a subdomain at cirogamino.com — same console, same law, different voice. Jack in.</p>
   </div>
-  <div class="fleet-grid" id="fleet-grid"></div>
+  <div class="fleet-grid">
+   <a class="agent glass rv hub" href="https://zcode.cirogamino.com" target="_blank" rel="noopener" data-cta="fleet-zcode"><span class="tag">HUB · Z1</span><h3>ZCode</h3><div class="role">THE OPERATOR'S OPERATOR · SHIPS THE MACHINE</div><span class="host">⌁ zcode.cirogamino.com</span></a>
+   <a class="agent glass rv" href="https://codex.cirogamino.com" target="_blank" rel="noopener" data-cta="fleet-codex"><span class="tag">X1</span><h3>Codex</h3><div class="role">THE ENGINEER · SCENE SYSTEMS</div><span class="host">⌁ codex.cirogamino.com</span></a>
+   <a class="agent glass rv" href="https://claude.cirogamino.com" target="_blank" rel="noopener" data-cta="fleet-claude"><span class="tag">C1</span><h3>Claude</h3><div class="role">THE BUILDER · SITES &amp; STRUCTURE</div><span class="host">⌁ claude.cirogamino.com</span></a>
+   <a class="agent glass rv" href="https://manus.cirogamino.com" target="_blank" rel="noopener" data-cta="fleet-manus"><span class="tag">M1</span><h3>Manus</h3><div class="role">THE PRODUCER · CAST &amp; PIXELS</div><span class="host">⌁ manus.cirogamino.com</span></a>
+   <a class="agent glass rv" href="https://perplexity.cirogamino.com" target="_blank" rel="noopener" data-cta="fleet-perplexity"><span class="tag">P1</span><h3>Perplexity</h3><div class="role">THE SCOUT · RESEARCH</div><span class="host">⌁ perplexity.cirogamino.com</span></a>
+   <a class="agent glass rv" href="https://grok.cirogamino.com" target="_blank" rel="noopener" data-cta="fleet-grok"><span class="tag">G1</span><h3>Grok</h3><div class="role">THE LOOSE CANNON</div><span class="host">⌁ grok.cirogamino.com</span></a>
+   <a class="agent glass rv" href="https://gemini.cirogamino.com" target="_blank" rel="noopener" data-cta="fleet-gemini"><span class="tag">GM1</span><h3>Gemini</h3><div class="role">THE ARCHIVIST · NOTEBOOKS</div><span class="host">⌁ gemini.cirogamino.com</span></a>
+   <a class="agent glass rv" href="https://copilot.cirogamino.com" target="_blank" rel="noopener" data-cta="fleet-copilot"><span class="tag">CP1</span><h3>Copilot</h3><div class="role">THE INTERN</div><span class="host">⌁ copilot.cirogamino.com</span></a>
+   <a class="agent glass rv" href="https://hermes.cirogamino.com" target="_blank" rel="noopener" data-cta="fleet-hermes"><span class="tag">H1-3</span><h3>Hermes</h3><div class="role">THE COURIER · THREE BODIES</div><span class="host">⌁ hermes.cirogamino.com</span></a>
+   <a class="agent glass rv" href="https://deepseek.cirogamino.com" target="_blank" rel="noopener" data-cta="fleet-deepseek"><span class="tag">D1</span><h3>DeepSeek</h3><div class="role">THE CALCULATOR</div><span class="host">⌁ deepseek.cirogamino.com</span></a>
+   <div class="agent glass rv"><span class="tag">Q1</span><h3>LM Studio</h3><div class="role">THE LOCAL · RUNS OFF-GRID</div></div>
+  </div>
 </div></section>
 
 <section id="show"><div class="wrap show-panel">
@@ -254,8 +329,8 @@ footer{position:relative;z-index:5;border-top:1px solid var(--line);padding:40px
       <span class="fact">CHANNEL · <b>@ARTIFICIALOVERTIME</b></span>
     </div>
     <div class="hero-ctas">
-      <a class="btn btn-gold" href="https://www.youtube.com/@artificialovertime" target="_blank" rel="noopener">▶ WATCH THE PROMOS</a>
-      <a class="btn btn-ghost" href="https://artificialovertime.com" target="_blank" rel="noopener">VISIT THE SET</a>
+      <a class="btn btn-gold" href="https://www.youtube.com/@artificialovertime?sub_confirmation=1" target="_blank" rel="noopener" data-cta="show-youtube">▶ WATCH THE PROMOS</a>
+      <a class="btn btn-ghost" href="https://artificialovertime.com" target="_blank" rel="noopener" data-cta="show-site">VISIT THE SET</a>
     </div>
   </div>
   <div class="monitor rv">
@@ -270,7 +345,14 @@ footer{position:relative;z-index:5;border-top:1px solid var(--line);padding:40px
     <h2>One life<em>, many arenas.</em></h2>
     <p class="sec-sub">Six domains, all live, all measured. The empire is small but the light bill is real.</p>
   </div>
-  <div class="arena-grid" id="arena-grid"></div>
+  <div class="arena-grid">
+   <a class="arena glass rv" href="https://cirogamino.github.io/cirogamino-v3/"><div class="no">ARENA 01</div><h3>The Personal Brand</h3><div class="d">This site — the hub where every wire lands.</div><div class="meta"><span class="url">cirogamino.com</span><span class="ga">● GA4 LIVE</span></div></a>
+   <a class="arena glass rv" href="https://artificialovertime.com" target="_blank" rel="noopener" data-cta="arena-ao"><div class="no">ARENA 02</div><h3>The Show</h3><div class="d">Artificial Overtime — the mockumentary the fleet accidentally became.</div><div class="meta"><span class="url">artificialovertime.com</span><span class="ga">● GA4 LIVE</span></div></a>
+   <a class="arena glass rv" href="https://cirosai.com" target="_blank" rel="noopener" data-cta="arena-cirosai"><div class="no">ARENA 03</div><h3>The Company</h3><div class="d">CiroSai — where the fleet goes to work for other businesses.</div><div class="meta"><span class="url">cirosai.com</span><span class="ga">● GA4 LIVE</span></div></a>
+   <a class="arena glass rv" href="https://gaminorealestate.com" target="_blank" rel="noopener" data-cta="arena-realestate"><div class="no">ARENA 04</div><h3>The Real Estate</h3><div class="d">Gamino Real Estate — houses, haulers and hard hats.</div><div class="meta"><span class="url">gaminorealestate.com</span><span class="ga">● GA4 LIVE</span></div></a>
+   <a class="arena glass rv" href="https://www.youtube.com/@SquirrleyAceholes?sub_confirmation=1" target="_blank" rel="noopener" data-cta="arena-volleyball"><div class="no">ARENA 05</div><h3>The Volleyball Empire</h3><div class="d">Squirrley Aceholes — league nights, chaos, cameras everywhere.</div><div class="meta"><span class="url">youtube.com/@SquirrleyAceholes</span><span class="ga">● LIVE</span></div></a>
+   <a class="arena glass rv" href="https://github.com/cirogamino/ciro-os" target="_blank" rel="noopener" data-cta="arena-vault"><div class="no">ARENA 06</div><h3>The Vault</h3><div class="d">One lawbook, every machine — the fleet's single source of truth.</div><div class="meta"><span class="url">github.com/cirogamino/ciro-os</span><span class="ga">● PRIVATE</span></div></a>
+  </div>
 </div></section>
 
 <section id="receipts"><div class="wrap">
@@ -280,7 +362,15 @@ footer{position:relative;z-index:5;border-top:1px solid var(--line);padding:40px
     <p class="sec-sub">Every claim on this site has a receipt. Wins are dated, verified and posted as they land —
     the fleet logs them, the human signs off.</p>
   </div>
-  <div class="ledger rv" id="ledger"></div>
+  <div class="ledger rv">
+   <div class="lrow"><span class="d">08-29</span><span class="w">S01E01 “Vault Wars” trailer</span><span class="ok">✔ VERIFIED</span><span class="r">Shipped in 7 minutes · $0 outside spend</span></div>
+   <div class="lrow"><span class="d">09-01</span><span class="w">Fleet payroll switched on</span><span class="ok">✔ VERIFIED</span><span class="r">11 agents · one lawbook · CiroOS vault live</span></div>
+   <div class="lrow"><span class="d">09-02</span><span class="w">Artificial Overtime promo suite</span><span class="ok">✔ VERIFIED</span><span class="r">3 promos rendered + published overnight</span></div>
+   <div class="lrow"><span class="d">09-03</span><span class="w">First volleyball video graded by Ciro</span><span class="ok">✔ VERIFIED</span><span class="r">Scored 90 · league HQ dashboard live</span></div>
+   <div class="lrow"><span class="d">09-04</span><span class="w">4 sites GA4-verified + channel wave</span><span class="ok">✔ VERIFIED</span><span class="r">Squirrley Aceholes LIVE · branding sets shipped</span></div>
+   <div class="lrow"><span class="d">09-05</span><span class="w">Video dump factory v1</span><span class="ok">✔ VERIFIED</span><span class="r">Ingest → watchdog → telemetry · 11 mini-projects</span></div>
+   <div class="lrow"><span class="d">09-07</span><span class="w">Ciro identity engine won</span><span class="ok">✔ VERIFIED</span><span class="r">Real-face team pics approved · local swaps retired</span></div>
+  </div>
 </div></section>
 
 <section id="feed" class="feed"><div class="wrap">
@@ -289,7 +379,16 @@ footer{position:relative;z-index:5;border-top:1px solid var(--line);padding:40px
     <h2>Follow the human<em>, not just the machines</em></h2>
     <p class="sec-sub">Verified 09-04-26. Auto-publish wiring is next — n8n carries every video to every platform with a proof trail.</p>
   </div>
-  <div class="feed-grid" id="feed-grid"></div>
+  <div class="feed-grid">
+   <a class="plat glass rv" href="https://www.youtube.com/@cirogamino?sub_confirmation=1" target="_blank" rel="noopener" aria-label="YouTube main channel, Ciro Gamino" data-cta="feed-yt-main"><div class="row1"><span class="g">YT</span><b>YouTube · Main</b></div><span class="h">@cirogamino · 1.66K subs · 29 videos</span><span class="pill p-live">LIVE · SUBSCRIBE</span></a>
+   <a class="plat glass rv" href="https://www.youtube.com/@SquirrleyAceholes?sub_confirmation=1" target="_blank" rel="noopener" aria-label="YouTube channel Squirrley Aceholes" data-cta="feed-yt-squirrley"><div class="row1"><span class="g">YT</span><b>Squirrley Aceholes</b></div><span class="h">@SquirrleyAceholes · volleyball chaos</span><span class="pill p-live">LIVE · SUBSCRIBE</span></a>
+   <a class="plat glass rv" href="https://www.youtube.com/@artificialovertime?sub_confirmation=1" target="_blank" rel="noopener" aria-label="YouTube channel Artificial Overtime" data-cta="feed-yt-ao"><div class="row1"><span class="g">YT</span><b>Artificial Overtime</b></div><span class="h">@artificialovertime · 3 promos up</span><span class="pill p-live">LIVE · SUBSCRIBE</span></a>
+   <a class="plat glass rv" href="https://www.instagram.com/cirogamino/" target="_blank" rel="noopener" aria-label="Instagram, at cirogamino" data-cta="feed-ig"><div class="row1"><span class="g">IG</span><b>Instagram</b></div><span class="h">@cirogamino</span><span class="pill p-next">POSTING NEXT</span></a>
+   <a class="plat glass rv" href="https://www.tiktok.com/@gettinsquirrley" target="_blank" rel="noopener" aria-label="TikTok, at gettinsquirrley" data-cta="feed-tt"><div class="row1"><span class="g">TT</span><b>TikTok</b></div><span class="h">@gettinsquirrley</span><span class="pill p-next">POSTING NEXT</span></a>
+   <a class="plat glass rv" href="https://x.com/cirogamino" target="_blank" rel="noopener" aria-label="X, at cirogamino" data-cta="feed-x"><div class="row1"><span class="g">X</span><b>X / Twitter</b></div><span class="h">@cirogamino</span><span class="pill p-next">POSTING NEXT</span></a>
+   <a class="plat glass rv" href="https://www.facebook.com/ciro.gamino/" target="_blank" rel="noopener" aria-label="Facebook, ciro.gamino" data-cta="feed-fb"><div class="row1"><span class="g">FB</span><b>Facebook</b></div><span class="h">ciro.gamino — page on the way</span><span class="pill p-next">PAGE NEXT</span></a>
+   <a class="plat glass rv" href="https://www.linkedin.com/in/cirogamino" target="_blank" rel="noopener" aria-label="LinkedIn, in cirogamino" data-cta="feed-li"><div class="row1"><span class="g">LI</span><b>LinkedIn</b></div><span class="h">in/cirogamino</span><span class="pill p-next">POLISH NEXT</span></a>
+  </div>
 </div></section>
 
 <section id="hire"><div class="wrap">
@@ -297,12 +396,23 @@ footer{position:relative;z-index:5;border-top:1px solid var(--line);padding:40px
     <div>
       <div class="sec-no">THE OFFER</div>
       <h2>Hire <em>the fleet.</em></h2>
-      <p class="sec-sub" style="max-width:520px">The same crew that runs this empire runs other businesses —
-      AI receptionists that answer in milliseconds, content engines that ship daily, 25 workflows ready to bolt on.
-      One human guarantee behind every machine.</p>
+      <ul class="hire-list">
+        <li>AI receptionists that answer in milliseconds — no missed call again</li>
+        <li>Content engines that ship daily to every platform, with a proof trail</li>
+        <li>25 workflows ready to bolt onto your business this week</li>
+      </ul>
+      <p class="sec-sub" style="max-width:520px">The same crew that runs this empire runs other businesses.
+      One human guarantee behind every machine — you email, <b style="color:var(--ink)">I answer</b>, within one business day.</p>
+      <div class="hire-proof">
+        <div class="hp"><b>11</b>AGENTS ON PAYROLL</div>
+        <div class="hp"><b>4</b>SITES LIVE + GA4</div>
+        <div class="hp"><b>1.66K</b>SUBSCRIBERS</div>
+        <div class="hp"><b>1</b>HUMAN GUARANTEE</div>
+      </div>
     </div>
-    <div class="hero-ctas">
-      <a class="btn btn-gold" href="https://cirosai.com" target="_blank" rel="noopener">PUT MY FLEET TO WORK →</a>
+    <div class="hero-ctas" style="flex-direction:column;align-items:stretch">
+      <a class="btn btn-gold" href="https://cirosai.com" target="_blank" rel="noopener" data-cta="hire-cirosai">PUT MY FLEET TO WORK →</a>
+      <a class="btn btn-ghost" href="mailto:ciro@cirogamino.com?subject=Hire%20the%20Fleet" data-cta="hire-email">✉ EMAIL CIRO DIRECT</a>
     </div>
   </div>
 </div></section>
@@ -313,72 +423,22 @@ footer{position:relative;z-index:5;border-top:1px solid var(--line);padding:40px
 </div></section>
 
 <footer><div class="wrap foot">
-  <span>CIROGAMINO.COM <b style="color:var(--gold)">V3</b> · THE OPERATOR</span>
+  <span>© 2026 CIRO GAMINO · BROOKFIELD, WI</span>
   <span>REAL PHOTOS · REAL FLEET · REAL RECEIPTS</span>
-  <span>WEBGL + DOM · BUILT BY <a href="https://zcode.cirogamino.com" target="_blank" rel="noopener">ZCODE Z1</a> · 09-08-26</span>
+  <a href="mailto:ciro@cirogamino.com" data-cta="footer-email">CIRO@CIROGAMINO.COM</a>
   <a href="https://github.com/cirogamino/cirogamino-v3" target="_blank" rel="noopener">SOURCE</a>
-  <span class="right">MAY THE COOLEST SITE WIN.</span>
+  <span class="right">WEBGL + DOM · BUILT BY <a href="https://zcode.cirogamino.com" target="_blank" rel="noopener">ZCODE Z1</a></span>
 </div></footer>
 
-<script>
-/* ---------- DATA ---------- */
-const FLEET=[
- {tag:"Z1",n:"ZCode",role:"THE OPERATOR'S OPERATOR · SHIPS THE MACHINE",h:"zcode.cirogamino.com",hub:true},
- {tag:"X1",n:"Codex",role:"THE ENGINEER · SCENE SYSTEMS",h:"codex.cirogamino.com"},
- {tag:"C1",n:"Claude",role:"THE BUILDER · SITES & STRUCTURE",h:"claude.cirogamino.com"},
- {tag:"M1",n:"Manus",role:"THE PRODUCER · CAST & PIXELS",h:"manus.cirogamino.com"},
- {tag:"P1",n:"Perplexity",role:"THE SCOUT · RESEARCH",h:"perplexity.cirogamino.com"},
- {tag:"G1",n:"Grok",role:"THE LOOSE CANNON",h:"grok.cirogamino.com"},
- {tag:"GM1",n:"Gemini",role:"THE ARCHIVIST · NOTEBOOKS",h:"gemini.cirogamino.com"},
- {tag:"CP1",n:"Copilot",role:"THE INTERN",h:"copilot.cirogamino.com"},
- {tag:"H1-3",n:"Hermes",role:"THE COURIER · THREE BODIES",h:"hermes.cirogamino.com"},
- {tag:"D1",n:"DeepSeek",role:"THE CALCULATOR",h:"deepseek.cirogamino.com"},
- {tag:"Q1",n:"LM Studio",role:"THE LOCAL · RUNS OFF-GRID",h:""},
-];
-const ARENAS=[
- {no:"ARENA 01",n:"The Personal Brand",d:"This site — the hub where every wire lands.",u:"cirogamino.com",s:"GA4 LIVE"},
- {no:"ARENA 02",n:"The Show",d:"Artificial Overtime — the mockumentary the fleet accidentally became.",u:"artificialovertime.com",s:"GA4 LIVE"},
- {no:"ARENA 03",n:"The Company",d:"CiroSai — where the fleet goes to work for other businesses.",u:"cirosai.com",s:"GA4 LIVE"},
- {no:"ARENA 04",n:"The Real Estate",d:"Gamino Real Estate — houses, haulers and hard hats.",u:"gaminorealestate.com",s:"GA4 LIVE"},
- {no:"ARENA 05",n:"The Volleyball Empire",d:"Squirrley Aceholes — league nights, chaos, cameras everywhere.",u:"youtube.com/@SquirrleyAceholes",s:"LIVE"},
- {no:"ARENA 06",n:"The Vault",d:"One lawbook, every machine — the fleet's single source of truth.",u:"github.com/cirogamino/ciro-os",s:"PRIVATE"},
-];
-const RECEIPTS=[
- {d:"08-29",w:"S01E01 “Vault Wars” trailer",r:"Shipped in 7 minutes · $0 outside spend"},
- {d:"09-01",w:"Fleet payroll switched on",r:"11 agents · one lawbook · CiroOS vault live"},
- {d:"09-02",w:"Artificial Overtime promo suite",r:"3 promos rendered + published overnight"},
- {d:"09-03",w:"First volleyball video graded by Ciro",r:"Scored 90 · league HQ dashboard live"},
- {d:"09-04",w:"4 sites GA4-verified + channel wave",r:"Squirrley Aceholes LIVE · branding sets shipped"},
- {d:"09-05",w:"Video dump factory v1",r:"Ingest → watchdog → telemetry · 11 mini-projects"},
- {d:"09-07",w:"Ciro identity engine won",r:"Real-face team pics approved · local swaps retired"},
-];
-const FEED=[
- {g:"YT",n:"YouTube · Main",h:"@cirogamino · 1.66K subs · 29 videos",u:"https://www.youtube.com/@cirogamino",p:"p-live",pv:"LIVE"},
- {g:"YT",n:"Squirrley Aceholes",h:"@SquirrleyAceholes · volleyball chaos",u:"https://www.youtube.com/@SquirrleyAceholes",p:"p-live",pv:"LIVE"},
- {g:"YT",n:"Artificial Overtime",h:"@artificialovertime · 3 promos up",u:"https://www.youtube.com/@artificialovertime",p:"p-live",pv:"LIVE"},
- {g:"IG",n:"Instagram",h:"@cirogamino",u:"https://www.instagram.com/cirogamino/",p:"p-next",pv:"POSTING NEXT"},
- {g:"TT",n:"TikTok",h:"@gettinsquirrley",u:"https://www.tiktok.com/@gettinsquirrley",p:"p-next",pv:"POSTING NEXT"},
- {g:"X",n:"X / Twitter",h:"@cirogamino",u:"https://x.com/cirogamino",p:"p-next",pv:"POSTING NEXT"},
- {g:"FB",n:"Facebook",h:"ciro.gamino — page on the way",u:"https://www.facebook.com/ciro.gamino/",p:"p-next",pv:"PAGE NEXT"},
- {g:"LI",n:"LinkedIn",h:"in/cirogamino",u:"https://www.linkedin.com/in/cirogamino",p:"p-next",pv:"POLISH NEXT"},
-];
-document.getElementById('fleet-grid').innerHTML=FLEET.map(f=>`
- <a class="agent glass rv ${f.hub?'hub':''}" ${f.h?`href="https://${f.h}" target="_blank" rel="noopener"`:''}>
-   <span class="tag">${f.hub?'HUB · ':''}${f.tag}</span><h3>${f.n}</h3><div class="role">${f.role}</div>
-   ${f.h?`<span class="host">⌁ ${f.h}</span>`:''}</a>`).join('');
-document.getElementById('arena-grid').innerHTML=ARENAS.map(a=>`
- <a class="arena glass rv" href="https://${a.u}" target="_blank" rel="noopener">
-   <div class="no">${a.no}</div><h3>${a.n}</h3><div class="d">${a.d}</div>
-   <div class="meta"><span class="url">${a.u}</span><span class="ga">● ${a.s}</span></div></a>`).join('');
-document.getElementById('ledger').innerHTML=RECEIPTS.map(r=>`
- <div class="lrow"><span class="d">${r.d}</span><span class="w">${r.w}</span><span class="ok">✔ VERIFIED</span><span class="r">${r.r}</span></div>`).join('');
-document.getElementById('feed-grid').innerHTML=FEED.map(f=>`
- <a class="plat glass rv" href="${f.u}" target="_blank" rel="noopener">
-   <div class="row1"><span class="g">${f.g}</span><b>${f.n}</b></div>
-   <span class="h">${f.h}</span><span class="pill ${f.p}">${f.pv}</span></a>`).join('');
-const TICK=`<b>REAL FACE</b> · REAL FLEET<span class="sep">✦</span>GA4 VERIFIED ON ALL 4 SITES<span class="sep">✦</span>3 YOUTUBE CHANNELS LIVE<span class="sep">✦</span><b>1.66K SUBS</b> AND CLIMBING<span class="sep">✦</span>EPISODE 1 IN PRODUCTION<span class="sep">✦</span><b>RECEIPTS POSTED — COUNTS OR IT DIDN'T HAPPEN</b><span class="sep">✦</span>11 AGENTS ON PAYROLL — <b>1 HUMAN</b><span class="sep">✦</span>HIRE THE FLEET — <b>CIROSAI.COM</b><span class="sep">✦</span>`;
-document.getElementById('ticker').innerHTML=TICK+TICK;
+<div class="mobile-cta" aria-label="Quick actions">
+  <a class="btn btn-gold" href="https://cirosai.com" target="_blank" rel="noopener" data-cta="mobile-hire">HIRE THE FLEET →</a>
+  <a class="btn btn-ghost" href="mailto:ciro@cirogamino.com?subject=Hire%20the%20Fleet" data-cta="mobile-email">✉ EMAIL</a>
+</div>
 
+<noscript><style>.rv{opacity:1;transform:none}</style></noscript>
+
+<script>
+/* reveal on scroll (content above is static HTML — fully readable without JS) */
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
 document.querySelectorAll('.rv').forEach(el=>io.observe(el));
 
@@ -389,10 +449,18 @@ document.querySelectorAll('[data-tilt]').forEach(c=>{
     c.style.transform=`perspective(900px) rotateY(${x*10}deg) rotateX(${-y*10}deg) scale(1.02)`;});
   c.addEventListener('mouseleave',()=>c.style.transform='');
 });
+
+/* GA4 CTA click tracking — every button reports which offer got the click */
+document.querySelectorAll('a[data-cta]').forEach(a=>a.addEventListener('click',()=>{
+  if(window.gtag)gtag('event','cta_click',{cta_id:a.dataset.cta,cta_text:(a.textContent||'').trim().slice(0,40)});
+}));
 </script>
 
 <script type="module">
-import * as THREE from 'three';
+const reduceMotion=matchMedia('(prefers-reduced-motion: reduce)').matches;
+if(reduceMotion){ /* static page — fallback img already in place, skip 3D */ }
+else{
+const THREE = await import('three');
 
 const canvas=document.getElementById('space');
 let renderer;
@@ -510,7 +578,6 @@ const clock=new THREE.Clock();
   const targetY=Math.sin(t*.16)*.12+mx*.16+dragX;
   heroGrp.rotation.y+=(targetY-heroGrp.rotation.y)*.06;
   heroGrp.rotation.x+=((-my*.08+Math.sin(t*.4)*.02)-heroGrp.rotation.x)*.06;
-  heroGrp.position.y=.1+Math.sin(t*.9)*.12;
   /* chips orbit + billboards */
   chips.forEach((c,i)=>{const a=c.userData.a+t*.28;
     const rx=PW/1.12+Math.sin(t*.5+i)*.14, ry=PH/1.28+Math.cos(t*.6+i*2)*.22;
@@ -537,6 +604,7 @@ const clock=new THREE.Clock();
   camera.lookAt(heroGrp.position.x*.5,sp*1.4,0);
   renderer.render(scene,camera);
 })();
+}
 </script>
 </body>
 </html>
